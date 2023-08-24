@@ -1,4 +1,6 @@
-var produtos = [];
+// var produtos = [];
+var produtos = [
+];
 var proximoNumeroProduto = 1;
 
 function adicionarProduto() {
@@ -55,7 +57,7 @@ function atualizarListaProdutos() {
       <div class="produto-info">
         <span class="produto-valor">R$ ${produto.valor.toFixed(2)}</span>
         <input type="number" class="quantidade-produto" value="${produto.quantidade}" onchange="atualizarQuantidade(${i}, this.value)">
-        <button class="btn-remover" onclick="removerProduto(${produto.id})">Remover</button>
+        <button class="fa-solid fa-trash btn-remover" onclick="removerProduto(${produto.id})"></button>
       </div>
     `;
     lista.appendChild(item);
@@ -69,6 +71,7 @@ function atualizarQuantidade(index, quantidade) {
 
   produtos[index].quantidade = quantidade;
   atualizarTotal();
+  atualizarContagemItens()
 }
 
 function atualizarTotal() {
@@ -85,19 +88,10 @@ function atualizarContagemItens() {
   var contagem = 0;
 
   for (var i = 0; i < produtos.length; i++) {
-    contagem += produtos[i].quantidade;
+    contagem += parseInt(produtos[i].quantidade);
   }
 
   var contagemItensElemento = document.getElementById("contagem-itens");
   contagemItensElemento.innerText = contagem + (contagem === 1 ? " item" : " itens");
 
 }
-
-document.addEventListener("DOMContentLoaded", function () {
-  document.getElementById("nome-produto").addEventListener("keydown", function (event) {
-    if (event.key === "Enter") {
-      event.preventDefault();
-      adicionarProduto();
-    }
-  });
-});
