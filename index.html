@@ -63,5 +63,14 @@
 
     <!-- Toast Container -->
     <div id="toast-container" class="fixed top-4 right-4 space-y-3 z-50 max-w-sm w-full"></div>
+
+    <script>
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('./service-worker.js')
+          .then(() => console.log('Service Worker registrado!'))
+          .catch(err => console.error('Erro ao registrar Service Worker:', err));
+      }
+    </script>
+    
   </body>
 </html>
