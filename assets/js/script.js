@@ -286,3 +286,34 @@ function mostrarToast(mensagem, tipo = 'info') {
       listaSugestoes.classList.add('hidden');
     }
   }
+
+//Adiciona o botão de intalar PWA
+document.addEventListener('DOMContentLoaded', () => {
+  const installButton = document.getElementById('installBtn');
+  let deferredInstallPrompt = null;
+
+  window.addEventListener('beforeinstallprompt', (event) => {
+    event.preventDefault();
+    deferredInstallPrompt = event;
+
+    installButton.style.display = 'block';
+
+    const handleInstallClick = async () => {
+      try {
+        deferredInstallPrompt.prompt();
+
+        const choiceResult = await deferredInstallPrompt.userChoice;
+        console.log('Instalação:', choiceResult.outcome);
+
+        if (choiceResult.outcome === 'accepted' || choiceResult.outcome === 'dismissed') {
+          installButton.style.display = 'none';
+          deferredInstallPrompt = null;
+        }
+      } catch (error) {
+        console.error('Erro ao tentar instalar a PWA:', error);
+      }
+    };
+
+    installButton.addEventListener('click', handleInstallClick, { once: true });
+  });
+});
