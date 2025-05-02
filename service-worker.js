@@ -2,10 +2,10 @@ const CACHE_NAME = 'compras-cache-v1';
 const urlsToCache = [
   './',
   './index.html',
-  './script.js',
+  './assets/js/script.js',
   './manifest.json',
-  './assets/icons/icon-192.png',
-  './assets/icons/icon-512.png'
+  './assets/icon/icon-192.png',
+  './assets/icon/icon-512.png'
 ];
 
 self.addEventListener('install', event => {
