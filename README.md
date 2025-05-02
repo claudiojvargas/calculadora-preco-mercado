@@ -2,6 +2,10 @@
 
 Uma calculadora simples e prática para usar durante suas compras no mercado. Ideal para quem quer evitar surpresas no caixa e manter o controle total dos gastos em tempo real.
 
+🔗 **Acesse agora:** [https://precomercado.netlify.app](https://precomercado.netlify.app)
+
+---
+
 ## ✅ Funcionalidades Atuais
 
 - Adição rápida de valores dos produtos
