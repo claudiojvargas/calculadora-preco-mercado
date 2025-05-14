@@ -10,58 +10,58 @@
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="assets/js/script.js"></script>
   </head>
- <body class="bg-gray-50 min-h-screen flex flex-col items-center py-10 px-4 text-gray-800 pb-32">
+  <body class="bg-gray-50 min-h-screen flex flex-col items-center py-10 px-4 text-gray-800 pb-32">
 
-  <h1 class="text-3xl font-bold mb-8 text-center text-gray-800 flex items-center justify-center gap-2">
-  <i data-lucide="shopping-cart" class="w-8 h-8 text-green-600"></i>
-    Calculadora de Compras
-  </h1>
+    <h1 class="text-3xl font-bold mb-8 text-center text-gray-800 flex items-center justify-center gap-2">
+    <i data-lucide="shopping-cart" class="w-8 h-8 text-green-600"></i>
+      Calculadora de Compras
+    </h1>
 
-  <!-- Formulário -->
-  <div class="w-full max-w-md bg-white rounded-2xl shadow p-6 space-y-5">
-    <div class="relative w-full max-w-md">
-      <label for="nome-produto" class="block text-sm font-medium mb-1">Nome do Produto</label>
-      <input type="text" id="nome-produto" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-green-500 focus:border-green-500 px-4 py-2" placeholder="Ex: Maçã" oninput="filtrarProdutos()"/>
-      <!-- Lista de sugestões -->
-      <ul id="sugestoes" class="absolute w-full bg-white border border-gray-300 rounded-md mt-1 max-h-40 overflow-y-auto hidden">
-        <!-- As sugestões serão inseridas aqui dinamicamente -->
-      </ul>
+    <!-- Formulário -->
+    <div class="w-full max-w-md bg-white rounded-2xl shadow p-6 space-y-5">
+      <div class="relative w-full max-w-md">
+        <label for="nome-produto" class="block text-sm font-medium mb-1">Nome do Produto</label>
+        <input type="text" id="nome-produto" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-green-500 focus:border-green-500 px-4 py-2" placeholder="Ex: Maçã" oninput="filtrarProdutos()"/>
+        <!-- Lista de sugestões -->
+        <ul id="sugestoes" class="absolute w-full bg-white border border-gray-300 rounded-md mt-1 max-h-40 overflow-y-auto hidden">
+          <!-- As sugestões serão inseridas aqui dinamicamente -->
+        </ul>
+      </div>
+      <div>
+        <label for="valor-produto" class="block text-sm font-medium mb-1">Valor (R$)</label>
+        <input type="text" id="valor-produto" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-green-500 focus:border-green-500 px-4 py-2" placeholder="Ex: 2.50" />
+      </div>
+      <button onclick="adicionarProduto()" class="w-full bg-green-600 hover:bg-green-700 transition-all text-white font-semibold py-3 rounded-lg flex items-center justify-center gap-2">
+        <i data-lucide="plus-circle" class="w-5 h-5"></i>
+        Adicionar Produto
+      </button>
     </div>
-    <div>
-      <label for="valor-produto" class="block text-sm font-medium mb-1">Valor (R$)</label>
-      <input type="text" id="valor-produto" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-green-500 focus:border-green-500 px-4 py-2" placeholder="Ex: 2.50" />
+
+    <!-- Lista de Produtos -->
+    <div class="mt-10 w-full max-w-2xl">
+      <h2 class="text-2xl font-semibold mb-4">Produtos Adicionados</h2>
+      <ul id="produtos-list" class="space-y-4"></ul>
     </div>
-    <button onclick="adicionarProduto()" class="w-full bg-green-600 hover:bg-green-700 transition-all text-white font-semibold py-3 rounded-lg flex items-center justify-center gap-2">
-      <i data-lucide="plus-circle" class="w-5 h-5"></i>
-      Adicionar Produto
-    </button>
-  </div>
 
-  <!-- Lista de Produtos -->
-  <div class="mt-10 w-full max-w-2xl">
-    <h2 class="text-2xl font-semibold mb-4">Produtos Adicionados</h2>
-    <ul id="produtos-list" class="space-y-4"></ul>
-  </div>
-
-  <!-- Painel fixo inferior -->
-  <div class="fixed bottom-0 left-0 w-full bg-white border-t shadow-md z-50">
-    <div class="max-w-4xl mx-auto px-4 py-4 flex flex-col sm:flex-row items-center justify-between gap-4">
-      <div class="flex items-center gap-3">
-        <i data-lucide="package" class="w-6 h-6 text-blue-600"></i>
-        <div>
-          <p class="text-sm text-gray-500" hidden>Quantidade de Itens</p>
-          <p id="contagem-itens" class="text-lg font-bold text-blue-600">0 item(s)</p>
+    <!-- Painel fixo inferior -->
+    <div class="fixed bottom-0 left-0 w-full bg-white border-t shadow-md z-50">
+      <div class="max-w-4xl mx-auto px-4 py-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div class="flex items-center gap-3">
+          <i data-lucide="package" class="w-6 h-6 text-blue-600"></i>
+          <div>
+            <p class="text-sm text-gray-500" hidden>Quantidade de Itens</p>
+            <p id="contagem-itens" class="text-lg font-bold text-blue-600">0 item(s)</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-3">
+          <i data-lucide="dollar-sign" class="w-6 h-6 text-green-600"></i>
+          <div>
+            <p class="text-sm text-gray-500" hidden>Valor Total</p>
+            <p id="total" class="text-lg font-bold text-green-600">R$ 0,00</p>
+          </div>
         </div>
       </div>
-      <div class="flex items-center gap-3">
-        <i data-lucide="dollar-sign" class="w-6 h-6 text-green-600"></i>
-        <div>
-          <p class="text-sm text-gray-500" hidden>Valor Total</p>
-          <p id="total" class="text-lg font-bold text-green-600">R$ 0,00</p>
-        </div>
-      </div>
     </div>
-  </div>
 
     <!-- Toast Container -->
     <div id="toast-container" class="fixed top-4 right-4 space-y-3 z-50 max-w-sm w-full"></div>
@@ -80,6 +80,33 @@
     Instalar App
     </button>
 
+    <button id="btn-criar-lista"
+        class="bg-blue-600 text-white px-4 py-2 rounded shadow mb-4"
+        onclick="abrirPopupLista()">
+        Criar Lista Predefinida
+    </button>
+
+    <button id="btn-usar-padrao"
+        class="bg-gray-700 text-white px-4 py-2 rounded shadow mb-4"
+        onclick="usarListaPadrao()">
+      Usar Lista Padrão
+    </button>
+
+    <div id="popup-lista" class="hidden fixed top-0 left-0 w-full h-full bg-black/50 flex items-center justify-center z-50">
+      <div class="bg-white p-6 rounded-lg w-96 shadow-lg">
+        <h2 class="text-lg font-bold mb-4">Criar Lista de Compras</h2>
+        
+        <input id="nome-produto-lista" type="text" placeholder="Nome do Produto" class="w-full mb-2 px-3 py-2 border rounded" />
+        <input id="valor-produto-lista" type="number" placeholder="Valor Estimado (R$)" class="w-full mb-4 px-3 py-2 border rounded" />
+        
+        <button class="bg-green-600 text-white px-4 py-2 rounded mr-2" onclick="adicionarItemLista()">Adicionar à Lista</button>
+        <button class="bg-gray-300 text-gray-700 px-4 py-2 rounded" onclick="fecharPopupLista()">Fechar</button>
+
+        <ul id="itens-lista" class="mt-4 max-h-40 overflow-y-auto text-sm"></ul>
+        
+        <button class="bg-blue-600 text-white px-4 py-2 mt-4 rounded w-full" onclick="usarListaNaCalculadora()">Usar Lista na Calculadora</button>
+      </div>
+    </div>
     
   </body>
 </html>

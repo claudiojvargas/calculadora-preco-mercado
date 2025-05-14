@@ -32,6 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
       style: 'currency',
       currency: 'BRL',
     });
+  
   }
 
   function atualizarResumo() {
@@ -185,9 +186,11 @@ function mostrarToast(mensagem, tipo = 'info') {
   }, 3000);
 }
 
+// Lista principal usada pela calculadora
+  let produtos = [];
 
 // Lista de produtos principais
-  const produtosPrincipais = [
+  const produtosFallback = [
   // Hortifruti
   "Maçã",
   "Melancia",
@@ -252,40 +255,120 @@ function mostrarToast(mensagem, tipo = 'info') {
   "Amaciante"
   ];
 
-  // Função para filtrar e exibir sugestões
-  function filtrarProdutos() {
-    const input = document.getElementById('nome-produto');
-    const listaSugestoes = document.getElementById('sugestoes');
-    const termoBusca = input.value.toLowerCase();
+  // Lista padrão embutida (fallback se o usuário não montar nada)
+  /*const produtosPrincipais = produtosFallback.map(produto => ({
+  nome: produto,
+  valor: 0,
+  quantidade: 1
+}));*/
 
-    // Limpar sugestões anteriores
-    listaSugestoes.innerHTML = '';
+  //lista de compra produtos 
+let listaPredefinida = [];
 
-    // Filtra os produtos
-    const produtosFiltrados = produtosPrincipais.filter(produto => 
-      produto.toLowerCase().startsWith(termoBusca)
-    );
+function usarListaPadrao() {
+  produtos = [...produtosFallback];
+  mostrarToast('Lista padrão carregada.', 'success');
 
-    // Exibe as sugestões ou oculta a lista
-    if (termoBusca.length > 0 && produtosFiltrados.length > 0) {
-      listaSugestoes.classList.remove('hidden');
-      produtosFiltrados.forEach(produto => {
-        const li = document.createElement('li');
-        li.className = 'p-2 cursor-pointer hover:bg-gray-100';
-        li.textContent = produto;
-        
-        // Ao clicar, preenche o input com o nome do produto
-        li.addEventListener('click', () => {
-          input.value = produto;
-          listaSugestoes.classList.add('hidden');
-        });
+  // Esconde o botão porque já está usando a padrão
+  document.getElementById('btn-usar-padrao').classList.add('hidden');
+}
 
-        listaSugestoes.appendChild(li);
-      });
-    } else {
-      listaSugestoes.classList.add('hidden');
-    }
+function abrirPopupLista() {
+  document.getElementById('popup-lista').classList.remove('hidden');
+}
+
+function fecharPopupLista() {
+  document.getElementById('popup-lista').classList.add('hidden');
+}
+
+function adicionarItemLista() {
+  const nome = document.getElementById('nome-produto-lista').value.trim();
+  const valor = parseFloat(document.getElementById('valor-produto-lista').value);
+
+  if (!nome) {
+    mostrarToast('Preencha nome e valor válidos.', 'error');
+    return;
   }
+
+  listaPredefinida.push(nome);
+  atualizarListaNoPopup();
+
+  document.getElementById('nome-produto-lista').value = '';
+  document.getElementById('valor-produto-lista').value = '';
+}
+
+function atualizarListaNoPopup() {
+  const ul = document.getElementById('itens-lista');
+  ul.innerHTML = '';
+
+  listaPredefinida.forEach((item, index) => {
+    const li = document.createElement('li');
+    li.className = 'flex justify-between items-center py-1';
+    li.innerHTML = `
+      <span>${item}</span>
+      <button onclick="removerItemLista(${index})" class="text-red-500 hover:text-red-700">Remover</button>
+    `;
+    ul.appendChild(li);
+  });
+}
+
+function removerItemLista(index) {
+  listaPredefinida.splice(index, 1);
+  atualizarListaNoPopup();
+}
+
+function usarListaNaCalculadora() {
+  produtos = [...listaPredefinida];
+  fecharPopupLista();
+  mostrarToast('Lista personalizada carregada.', 'success');
+
+  // Mostrar botão de "voltar" para padrão
+  document.getElementById('btn-usar-padrao').classList.remove('hidden');
+}
+
+
+window.addEventListener('DOMContentLoaded', () => {
+  if (produtos.length === 0) {
+    usarListaPadrao(); // Carrega a padrão na primeira visita
+  }
+});
+
+// Função para filtrar e exibir sugestões
+function filtrarProdutos() {
+  const input = document.getElementById('nome-produto');
+  const listaSugestoes = document.getElementById('sugestoes');
+  const termoBusca = input.value.toLowerCase();
+
+  // Limpar sugestões anteriores
+  listaSugestoes.innerHTML = '';
+
+  // Filtra os produtos
+  const produtosFiltrados = produtos.filter(produto => 
+    produto.toLowerCase().startsWith(termoBusca)
+  );
+
+  // Exibe as sugestões ou oculta a lista
+  if (termoBusca.length > 0 && produtosFiltrados.length > 0) {
+    listaSugestoes.classList.remove('hidden');
+    produtosFiltrados.forEach(produto => {
+      const li = document.createElement('li');
+      li.className = 'p-2 cursor-pointer hover:bg-gray-100';
+      li.textContent = produto;
+      
+      // Ao clicar, preenche o input com o nome do produto
+      li.addEventListener('click', () => {
+        input.value = produto;
+        listaSugestoes.classList.add('hidden');
+      });
+
+      listaSugestoes.appendChild(li);
+    });
+  } else {
+    listaSugestoes.classList.add('hidden');
+  }
+}
+
+
 
 //Adiciona o botão de intalar PWA
 document.addEventListener('DOMContentLoaded', () => {
