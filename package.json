@@ -1,0 +1,27 @@
+{
+  "name": "calculadora-preco-mercado",
+  "version": "1.0.0",
+  "description": "Uma calculadora simples e prática para usar durante suas compras no mercado. Ideal para quem quer evitar surpresas no caixa e manter o controle total dos gastos em tempo real.",
+  "main": "service-worker.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/claudiojvargas/calculadora-preco-mercado.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/claudiojvargas/calculadora-preco-mercado/issues"
+  },
+  "homepage": "https://github.com/claudiojvargas/calculadora-preco-mercado#readme",
+  "devDependencies": {
+    "tailwindcss": "^4.1.11"
+  },
+  "dependencies": {
+    "@tailwindcss/cli": "^4.1.11"
+  }
+}
