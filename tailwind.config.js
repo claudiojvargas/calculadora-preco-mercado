@@ -2,7 +2,17 @@
 module.exports = {
   content: ["./index.html", "./assets/**/*.{html,js}"],
   theme: {
-    extend: {},
+    extend: {
+      animation: {
+        'slide-in': 'slideIn 0.3s ease-out',
+      },
+      keyframes: {
+        slideIn: {
+          '0%': { opacity: 0, transform: 'translateX(100%)' },
+          '100%': { opacity: 1, transform: 'translateX(0)' },
+        },
+      },
+    },
   },
   plugins: [],
 }
