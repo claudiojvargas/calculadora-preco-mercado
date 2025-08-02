@@ -4,7 +4,9 @@
   "description": "Uma calculadora simples e prática para usar durante suas compras no mercado. Ideal para quem quer evitar surpresas no caixa e manter o controle total dos gastos em tempo real.",
   "main": "service-worker.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "npx tailwindcss/cli build -i ./assets/css/style-input.css -o ./assets/css/style.css --watch",
+    "start-build": "npx @tailwindcss/cli -i ./assets/css/style-input.css -o ./assets/css/style.css --watch"
   },
   "repository": {
     "type": "git",
