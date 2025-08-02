@@ -2,21 +2,7 @@ window.onload = () => {
   lucide.createIcons();
 }
 
-tailwind.config = {
-  theme: {
-    extend: {
-      animation: {
-        'slide-in': 'slideIn 0.3s ease-out',
-      },
-      keyframes: {
-        slideIn: {
-          '0%': { opacity: 0, transform: 'translateX(100%)' },
-          '100%': { opacity: 1, transform: 'translateX(0)' },
-        },
-      },
-    },
-  },
-};
+let produtos = []; // Lista de produtos
 
 document.addEventListener('DOMContentLoaded', () => {
   const nomeInput = document.getElementById('nome-produto');
@@ -25,13 +11,22 @@ document.addEventListener('DOMContentLoaded', () => {
   const contagemItensDisplay = document.getElementById('contagem-itens');
   const produtosList = document.getElementById('produtos-list');
 
-  let produtos = [];
+  produtos = carregarListaDoCache(); // Carrega do localStorage
 
   function formatarValor(valor) {
     return valor.toLocaleString('pt-BR', {
       style: 'currency',
       currency: 'BRL',
     });
+  }
+
+  function salvarListaNoCache() {
+    localStorage.setItem('listaMercado', JSON.stringify(produtos));
+  }
+
+  function carregarListaDoCache() {
+    const dados = localStorage.getItem('listaMercado');
+    return dados ? JSON.parse(dados) : [];
   }
 
   function atualizarResumo() {
@@ -42,53 +37,50 @@ document.addEventListener('DOMContentLoaded', () => {
     contagemItensDisplay.textContent = `${quantidadeItens} item(s)`;
   }
 
-function criarElementoProduto(produto, index) {
-  const li = document.createElement('li');
-  li.className = 'flex flex-col sm:flex-row sm:items-center justify-between bg-white p-4 rounded-xl shadow-md gap-4';
+  function criarElementoProduto(produto, index) {
+    const li = document.createElement('li');
+    li.className = 'flex flex-col sm:flex-row sm:items-center justify-between bg-white p-4 rounded-xl shadow-md gap-4';
 
-  // Nome do produto (sem índice)
-  const nome = document.createElement('div');
-  nome.className = 'font-medium text-gray-800';
-  nome.textContent = produto.nome;
+    const nome = document.createElement('div');
+    nome.className = 'font-medium text-gray-800';
+    nome.textContent = produto.nome;
 
-  // Valor formatado
-  const valor = document.createElement('span');
-  valor.textContent = formatarValor(produto.valor);
-  valor.className = 'text-sm text-gray-600 font-semibold';
+    const valor = document.createElement('span');
+    valor.textContent = formatarValor(produto.valor);
+    valor.className = 'text-sm text-gray-600 font-semibold';
 
-  // Campo de quantidade
-  const inputQtd = document.createElement('input');
-  inputQtd.type = 'number';
-  inputQtd.value = produto.quantidade;
-  inputQtd.min = '1';
-  inputQtd.className = 'w-16 px-2 py-1 border border-gray-300 rounded-md text-center text-sm focus:outline-none focus:ring-2 focus:ring-green-500';
-  inputQtd.addEventListener('change', (e) => {
-    const novaQtd = parseInt(e.target.value);
-    if (!isNaN(novaQtd) && novaQtd > 0) {
-      produtos[index].quantidade = novaQtd;
-      atualizarResumo();
-    }
-  });
+    const inputQtd = document.createElement('input');
+    inputQtd.type = 'number';
+    inputQtd.value = produto.quantidade;
+    inputQtd.min = '1';
+    inputQtd.className = 'w-16 px-2 py-1 border border-gray-300 rounded-md text-center text-sm focus:outline-none focus:ring-2 focus:ring-green-500';
+    inputQtd.addEventListener('change', (e) => {
+      const novaQtd = parseInt(e.target.value);
+      if (!isNaN(novaQtd) && novaQtd > 0) {
+        produtos[index].quantidade = novaQtd;
+        salvarListaNoCache(); // Salva após alteração
+        atualizarResumo();
+      }
+    });
 
-  // Botão de excluir
-  const botaoExcluir = document.createElement('button');
-  botaoExcluir.innerHTML = '<i data-lucide="trash-2"></i>';
-  botaoExcluir.className = 'p-2 rounded-md hover:bg-red-100 text-red-500 transition';
-  botaoExcluir.addEventListener('click', () => {
-    produtos.splice(index, 1);
-    renderizarProdutos();
-    mostrarToast('Produto removido.', 'info');
-  });
+    const botaoExcluir = document.createElement('button');
+    botaoExcluir.innerHTML = '<i data-lucide="trash-2"></i>';
+    botaoExcluir.className = 'p-2 rounded-md hover:bg-red-100 text-red-500 transition';
+    botaoExcluir.addEventListener('click', () => {
+      produtos.splice(index, 1);
+      salvarListaNoCache(); // Salva após exclusão
+      renderizarProdutos();
+      mostrarToast('Produto removido.', 'info');
+    });
 
-  // Área de ações
-  const acoes = document.createElement('div');
-  acoes.className = 'flex items-center gap-3';
-  acoes.append(valor, inputQtd, botaoExcluir);
+    const acoes = document.createElement('div');
+    acoes.className = 'flex items-center gap-3';
+    acoes.append(valor, inputQtd, botaoExcluir);
 
-  li.append(nome, acoes);
-  lucide.createIcons();
-  return li;
-}
+    li.append(nome, acoes);
+    lucide.createIcons();
+    return li;
+  }
 
   function renderizarProdutos() {
     produtosList.innerHTML = '';
@@ -104,17 +96,21 @@ function criarElementoProduto(produto, index) {
     const valor = parseFloat(valorInput.value.replace(',', '.'));
 
     if (!nome || isNaN(valor) || valor <= 0) {
-      mostrarToast('Informe um produto valido.', 'erro');
+      mostrarToast('Informe um produto válido.', 'erro');
       return;
     }
 
     produtos.push({ nome, valor, quantidade: 1 });
+    salvarListaNoCache(); // Salva após adição
     nomeInput.value = '';
     valorInput.value = '';
     renderizarProdutos();
     mostrarToast('Produto adicionado com sucesso!', 'sucesso');
   };
+
+  renderizarProdutos(); // Renderiza ao carregar a página
 });
+
 
 function mostrarToast(mensagem, tipo = 'info') {
   const container = document.getElementById('toast-container');
