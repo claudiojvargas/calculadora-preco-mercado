@@ -4,6 +4,7 @@ window.onload = () => {
 
 let produtos = []; // Lista de produtos
 
+
 document.addEventListener('DOMContentLoaded', () => {
   const nomeInput = document.getElementById('nome-produto');
   const valorInput = document.getElementById('valor-produto');
@@ -29,8 +30,22 @@ document.addEventListener('DOMContentLoaded', () => {
     return dados ? JSON.parse(dados) : [];
   }
 
+  //somar valores com precisao de centavos
+  // Esta função soma valores com precisão de centavos, evitando problemas de precisão com números de ponto flutuante
+  function somarValoresPrecisos(valores) {
+    const somaCentavos = valores.reduce((acc, val) => {
+      const num = typeof val === "string" ? parseFloat(val) : val;
+      return acc + Math.round(num * 100);
+    }, 0);
+    return Number((somaCentavos / 100).toFixed(2));
+  }
+
+  // Atualiza o resumo da lista de compras
+  // Esta função calcula o total e a quantidade de itens, atualizando os displays correspondentes
   function atualizarResumo() {
-    const total = produtos.reduce((acc, p) => acc + p.valor * p.quantidade, 0);
+    const subtotais = produtos.map(p => p.valor * p.quantidade); // cria array de subtotais
+    const total = somarValoresPrecisos(subtotais); // soma com precisão
+
     const quantidadeItens = produtos.reduce((acc, p) => acc + p.quantidade, 0);
 
     totalDisplay.textContent = formatarValor(total);
