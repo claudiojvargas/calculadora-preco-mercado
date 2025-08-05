@@ -27,6 +27,9 @@ export class UI {
       this.produtosList.appendChild(li);
     });
     this.atualizarResumo();
+
+    // Atualiza os ícones após renderizar a lista inteira
+    lucide.createIcons();
   }
 
   atualizarResumo() {
@@ -70,7 +73,6 @@ export class UI {
     acoes.append(valor, inputQtd, botaoExcluir);
 
     li.append(nome, acoes);
-    lucide.createIcons();
     return li;
   }
 
