@@ -1,6 +1,7 @@
 import { ListaDeProdutos } from './listaProdutos.js';
 import { UI } from './ui.js';
 import { Sugestoes } from './sugestoes.js';
+import { ThemeToggle } from './theme.js';
 import './pwaRegister.js';
 import { PWAInstaller } from './pwaInstaller.js';
 
@@ -77,6 +78,10 @@ window.addEventListener('DOMContentLoaded', () => {
 
   document.getElementById('btn-adicionar').addEventListener('click', () => ui.adicionarProduto());
 
+
   new Sugestoes(produtosPrincipais);
   new PWAInstaller('installBtn');
+
+  // Inicializa tema
+  ThemeToggle.init();
 });

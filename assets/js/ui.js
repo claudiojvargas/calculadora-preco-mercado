@@ -38,43 +38,44 @@ export class UI {
   }
 
   criarElementoProduto(produto, index) {
-    const li = document.createElement('li');
-    li.className = 'flex flex-col sm:flex-row sm:items-center justify-between bg-white p-4 rounded-xl shadow-md gap-4';
+  const li = document.createElement('li');
+  li.className = 'flex flex-col sm:flex-row sm:items-center justify-between bg-white dark:bg-gray-800 p-4 rounded-xl shadow-md gap-4';
 
-    const nome = document.createElement('div');
-    nome.textContent = produto.nome;
-    nome.className = 'font-medium text-gray-800';
+  const nome = document.createElement('div');
+  nome.textContent = produto.nome;
+  nome.className = 'font-medium text-gray-800 dark:text-gray-100';
 
-    const valor = document.createElement('span');
-    valor.textContent = this.formatarValor(produto.valor);
-    valor.className = 'text-sm text-gray-600 font-semibold';
+  const valor = document.createElement('span');
+  valor.textContent = this.formatarValor(produto.valor);
+  valor.className = 'text-sm text-gray-600 dark:text-gray-300 font-semibold';
 
-    const inputQtd = document.createElement('input');
-    inputQtd.type = 'number';
-    inputQtd.value = produto.quantidade;
-    inputQtd.className = 'w-16 px-2 py-1 border border-gray-300 rounded-md text-center text-sm focus:outline-none focus:ring-2 focus:ring-green-500';
-    inputQtd.addEventListener('change', (e) => {
-      const novaQtd = parseInt(e.target.value);
-      this.lista.atualizarQuantidade(index, novaQtd);
-      this.renderizar();
-    });
+  const inputQtd = document.createElement('input');
+  inputQtd.type = 'number';
+  inputQtd.value = produto.quantidade;
+  inputQtd.className = 'w-16 px-2 py-1 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-md text-center text-sm focus:outline-none focus:ring-2 focus:ring-green-500';
+  inputQtd.addEventListener('change', (e) => {
+    const novaQtd = parseInt(e.target.value);
+    this.lista.atualizarQuantidade(index, novaQtd);
+    this.renderizar();
+  });
 
-    const botaoExcluir = document.createElement('button');
-    botaoExcluir.innerHTML = '<i data-lucide="trash-2"></i>';
-    botaoExcluir.className = 'p-2 rounded-md hover:bg-red-100 text-red-500 transition';
-    botaoExcluir.addEventListener('click', () => {
-      this.lista.remover(index);
-      this.renderizar();
-      Toast.mostrar('Produto removido', 'info');
-    });
+  const botaoExcluir = document.createElement('button');
+  botaoExcluir.innerHTML = '<i data-lucide="trash-2"></i>';
+  botaoExcluir.className = 'p-2 rounded-md hover:bg-red-100 dark:hover:bg-red-900 text-red-500 transition';
+  botaoExcluir.addEventListener('click', () => {
+    this.lista.remover(index);
+    this.renderizar();
+    Toast.mostrar('Produto removido', 'info');
+  });
 
-    const acoes = document.createElement('div');
-    acoes.className = 'flex items-center gap-3';
-    acoes.append(valor, inputQtd, botaoExcluir);
+  const acoes = document.createElement('div');
+  acoes.className = 'flex items-center gap-3';
+  acoes.append(valor, inputQtd, botaoExcluir);
 
-    li.append(nome, acoes);
-    return li;
+  li.append(nome, acoes);
+  return li;
   }
+
 
   adicionarProduto() {
     const nome = this.nomeInput.value.trim();
