@@ -8,6 +8,8 @@
     <link rel="manifest" href="manifest.json">
     <script src="https://unpkg.com/lucide@latest"></script>
     <link rel="stylesheet" href="assets/css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+
   </head>
   <body class="bg-gray-50 dark:bg-gray-900 min-h-screen flex flex-col items-center py-10 px-4 text-gray-800 dark:text-gray-100 pb-32 transition-colors duration-300">
 
@@ -77,5 +79,41 @@
     </button>
 
     <script type="module" src="./assets/js/main.js"></script>
+
+    <button id="btnLoginGoogle" class="fixed top-4 left-4 p-2 rounded-full shadow bg-white dark:bg-gray-800 text-gray-800 dark:text-white transition-colors">Entrar com Google</button>
+  <button id="btnLogout">Sair</button>
+
+  <p id="status"></p>
+
+  <script type="module">
+    import { loginGoogle, getUsuarioAtual, logout } from './assets/js/auth.js';
+
+    const status = document.getElementById("status");
+    const btnLoginGoogle = document.getElementById("btnLoginGoogle");
+    const btnLogout = document.getElementById("btnLogout");
+
+    // Login Google
+    btnLoginGoogle.addEventListener("click", async () => {
+      await loginGoogle();
+    });
+
+    // Logout
+    btnLogout.addEventListener("click", async () => {
+      await logout();
+      status.textContent = "Nenhum usuário logado";
+    });
+
+    // Checar sessão ao carregar página
+    window.addEventListener("DOMContentLoaded", async () => {
+      const user = await getUsuarioAtual();
+      if (user) {
+        status.textContent = "Logado como: " + user.email;
+      } else {
+        status.textContent = "Nenhum usuário logado";
+      }
+    });
+  </script>
+
+
   </body>
 </html>
