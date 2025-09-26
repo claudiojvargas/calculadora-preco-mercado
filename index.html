@@ -9,6 +9,7 @@
     <script src="https://unpkg.com/lucide@latest"></script>
     <link rel="stylesheet" href="assets/css/style.css">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+    <script src="https://kit.fontawesome.com/e49f1d70d5.js" crossorigin="anonymous"></script>
 
   </head>
   <body class="bg-gray-50 dark:bg-gray-900 min-h-screen flex flex-col items-center py-10 px-4 text-gray-800 dark:text-gray-100 pb-32 transition-colors duration-300">
@@ -73,47 +74,33 @@
       Instalar App
     </button>
 
+    <!-- Botão de login Social -->
+    <div class="fixed top-4 right-16 z-50 flex items-center gap-3 bg-gray-100 dark:bg-gray-800 px-4 py-2 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700">
+      <!-- Botão Login Google -->
+      <button id="btnLoginGoogle" 
+        class="flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-red-500 to-yellow-500 text-white font-medium shadow-md hover:opacity-90 transition">
+        <i class="fa-brands fa-google text-lg"></i>
+        Entrar
+      </button>
+
+      <!-- Status -->
+      <p id="status" 
+        class="px-4 py-2 text-sm rounded-xl bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-200 shadow-inner min-w-[100px] text-center">
+      </p>
+
+      <!-- Botão Logout -->
+      <button id="btnLogout" 
+        class="flex items-center justify-center px-3 py-2 rounded-xl bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-600 transition shadow-md">
+        <i data-lucide="log-out" class="w-5 h-5"></i>
+      </button>
+    </div>
+
     <!-- Botão de tema -->
-    <button id="btn-tema" class="fixed top-4 right-4 p-2 rounded-full shadow bg-white dark:bg-gray-800 text-gray-800 dark:text-white transition-colors">
+    <button id="btn-tema" class="fixed top-6 right-4 p-2 rounded-full shadow bg-white dark:bg-gray-800 text-gray-800 dark:text-white transition-colors">
       <i data-lucide="moon" id="icone-tema"></i>
     </button>
 
-    <script type="module" src="./assets/js/main.js"></script>
-
-    <button id="btnLoginGoogle" class="fixed top-4 left-4 p-2 rounded-full shadow bg-white dark:bg-gray-800 text-gray-800 dark:text-white transition-colors">Entrar com Google</button>
-  <button id="btnLogout">Sair</button>
-
-  <p id="status"></p>
-
-  <script type="module">
-    import { loginGoogle, getUsuarioAtual, logout } from './assets/js/auth.js';
-
-    const status = document.getElementById("status");
-    const btnLoginGoogle = document.getElementById("btnLoginGoogle");
-    const btnLogout = document.getElementById("btnLogout");
-
-    // Login Google
-    btnLoginGoogle.addEventListener("click", async () => {
-      await loginGoogle();
-    });
-
-    // Logout
-    btnLogout.addEventListener("click", async () => {
-      await logout();
-      status.textContent = "Nenhum usuário logado";
-    });
-
-    // Checar sessão ao carregar página
-    window.addEventListener("DOMContentLoaded", async () => {
-      const user = await getUsuarioAtual();
-      if (user) {
-        status.textContent = "Logado como: " + user.email;
-      } else {
-        status.textContent = "Nenhum usuário logado";
-      }
-    });
-  </script>
-
+  <script type="module" src="./assets/js/main.js"></script>
 
   </body>
 </html>
