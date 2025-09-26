@@ -1,6 +1,3 @@
-//import { createClient } from '@supabase/supabase-js';
-
-
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 
 const SUPABASE_URL = 'https://rphgunqnxfghlzyknibb.supabase.co';   // da dashboard

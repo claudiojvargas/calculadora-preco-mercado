@@ -23,9 +23,9 @@ export async function loginEmail(email, senha) {
 // Login social (Google)
 export async function loginGoogle() {
   const { error } = await supabase.auth.signInWithOAuth({
-    provider: 'google', 
+    provider: 'google',
     options: {
-      redirectTo: "http://localhost/calculadora-preco-mercado/"  // volta para sua PWA após login
+      redirectTo: "http://localhost/calculadora-preco-mercado/" // tem que estar cadastrado no dashboard
     }
   });
   if (error) console.error("Erro no login Google:", error.message);
@@ -35,6 +35,26 @@ export async function loginGoogle() {
 export async function getUsuarioAtual() {
   const { data } = await supabase.auth.getUser();
   return data.user || null;
+}
+
+// Checar sessão ao carregar a aplicação
+export async function checarSessao() {
+  const { data, error } = await supabase.auth.getSession();
+  if (error) {
+    console.error("Erro ao recuperar sessão:", error.message);
+    return null;
+  }
+  return data.session?.user || null;
+}
+
+export function escutarMudancaSessao(callback) {
+  supabase.auth.onAuthStateChange((_event, session) => {
+    if (session?.user) {
+      callback(session.user);
+    } else {
+      callback(null);
+    }
+  });
 }
 
 // Logout
