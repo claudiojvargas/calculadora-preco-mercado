@@ -12,38 +12,88 @@
     <script src="https://kit.fontawesome.com/e49f1d70d5.js" crossorigin="anonymous"></script>
 
   </head>
-  <body class="bg-gray-50 dark:bg-gray-900 min-h-screen flex flex-col items-center py-10 px-4 text-gray-800 dark:text-gray-100 pb-32 transition-colors duration-300">
+  <body class="bg-gray-50 dark:bg-gray-900 min-h-screen flex flex-col items-center py-10 px-4 text-gray-800 dark:text-gray-100 pb-32 transition-colors duration-300 overflow-hidden">
 
-    <h1 class="text-3xl font-bold mb-8 text-center flex items-center justify-center gap-2 text-gray-800 dark:text-gray-100">
-      <i data-lucide="shopping-cart" class="w-8 h-8 text-green-600"></i>
-      Calculadora de Compras
+    <!-- BLOCO PAI -->
+  <div class="w-full max-w-md absolute top-6 left-4">
+
+    <!-- Título -->
+    <h1 class="flex gap-2 text-3xl font-bold mb-8
+               text-gray-800 dark:text-gray-100
+               justify-start text-left">
+
+      <i data-lucide="shopping-cart"
+         class="w-8 h-8 text-green-600">
+      </i>
+
+      <!-- some no mobile -->
+      <span class="hidden sm:inline">
+        <!--Calculadora de Compras-->
+      </span>
+
     </h1>
 
+  </div>
+
     <!-- Formulário -->
-    <div class="w-full max-w-md bg-white dark:bg-gray-800 rounded-2xl shadow p-6 space-y-5">
-      <div class="relative w-full max-w-md">
-        <label for="nome-produto" class="block text-sm font-medium mb-1">Nome do Produto</label>
-        <input type="text" id="nome-produto" class="w-full border-gray-300 dark:border-gray-700 rounded-lg shadow-sm focus:ring-green-500 focus:border-green-500 px-4 py-2 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100" placeholder="Ex: Maçã"/>
-        <!-- Lista de sugestões -->
-        <ul id="sugestoes" class="absolute w-full bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-md mt-1 max-h-40 overflow-y-auto hidden text-gray-900 dark:text-gray-100">
-          <!-- Dinâmico -->
-        </ul>
-      </div>
-      <div>
-        <label for="valor-produto" class="block text-sm font-medium mb-1">Valor (R$)</label>
-        <input type="text" id="valor-produto" class="w-full border-gray-300 dark:border-gray-700 rounded-lg shadow-sm focus:ring-green-500 focus:border-green-500 px-4 py-2 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100" placeholder="Ex: 2.50" />
-      </div>
-      <button id="btn-adicionar" class="w-full bg-green-600 hover:bg-green-700 transition-all text-white font-semibold py-3 rounded-lg flex items-center justify-center gap-2">
-        <i data-lucide="plus-circle" class="w-5 h-5"></i>
-        Adicionar Produto
-      </button>
+    <div class="w-full max-w-md bg-white dark:bg-gray-800 rounded-2xl shadow p-6 space-y-5 mt-15">
+  
+  <!-- Container dos dois campos -->
+  <div class="grid grid-cols-3 gap-4">
+    
+    <!-- Nome do Produto (2/3) -->
+    <div class="col-span-2 relative">
+      <label for="nome-produto" class="block text-sm font-medium mb-1">
+        Nome do Produto
+      </label>
+      <input 
+        type="text" 
+        id="nome-produto"
+        class="w-full border-gray-300 dark:border-gray-700 rounded-lg shadow-sm focus:ring-green-500 focus:border-green-500 px-4 py-2 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100" 
+        placeholder="Ex: Maçã"
+      />
+
+      <!-- Lista de sugestões -->
+      <ul 
+        id="sugestoes" 
+        class="absolute w-full bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-md mt-1 max-h-40 overflow-y-auto hidden text-gray-900 dark:text-gray-100">
+      </ul>
     </div>
 
-    <!-- Lista de Produtos -->
-    <div class="mt-10 w-full max-w-2xl">
-      <h2 class="text-2xl font-semibold mb-4">Produtos Adicionados</h2>
-      <ul id="produtos-list" class="space-y-4"></ul>
+    <!-- Valor (1/3) -->
+    <div>
+      <label for="valor-produto" class="block text-sm font-medium mb-1">
+        Valor (R$)
+      </label>
+      <input 
+        type="text" 
+        id="valor-produto"
+        class="w-full border-gray-300 dark:border-gray-700 rounded-lg shadow-sm focus:ring-green-500 focus:border-green-500 px-4 py-2 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100" 
+        placeholder="2.50"
+      />
     </div>
+
+  </div>
+
+  <!-- Botão -->
+  <button id="btn-adicionar"
+    class="w-full bg-green-600 hover:bg-green-700 transition-all text-white font-semibold py-3 rounded-lg flex items-center justify-center gap-2">
+    <i data-lucide="plus-circle" class="w-5 h-5"></i>
+    Adicionar Produto
+  </button>
+
+</div>
+
+    <!-- Lista de Produtos -->
+   <div class="mt-10 w-full max-w-md">
+  <h2 class="text-2xl font-semibold mb-4">
+    Produtos Adicionados
+  </h2>
+
+  <ul id="produtos-list"
+      class="space-y-4 max-h-130 overflow-y-auto pr-2 scrollbar-hide pb-50">
+  </ul>
+</div>
 
     <!-- Painel fixo inferior -->
     <div class="fixed bottom-0 left-0 w-full bg-white dark:bg-gray-800 border-t border-gray-300 dark:border-gray-700 shadow-md z-50">
