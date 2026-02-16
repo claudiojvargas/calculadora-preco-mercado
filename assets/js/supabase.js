@@ -1,6 +1,6 @@
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 
-const SUPABASE_URL = 'https://rphgunqnxfghlzyknibb.supabase.co';   // da dashboard
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJwaGd1bnFueGZnaGx6eWtuaWJiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTc2ODIzOTksImV4cCI6MjA3MzI1ODM5OX0.Y5hctdSXVI38leBhPf_b5gHDrBZ6XfMSVniK0aW8EQ4';        // da dashboard
+const SUPABASE_URL = 'https://lqwzapmfvzpflhxnhipv.supabase.co';   // da dashboard
+const SUPABASE_ANON_KEY = 'sb_publishable_hy3jGyNIND6oIY5Wu9mNzg_ZZ2-mfUdeyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imxxd3phcG1mdnpwZmxoeG5oaXB2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzExMTQyOTMsImV4cCI6MjA4NjY5MDI5M30.MRs90nYqNgZvoq9JRbiOpa1DUkFBo9s8QWWI0YZ96Ns';        // da dashboard
 
 export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
