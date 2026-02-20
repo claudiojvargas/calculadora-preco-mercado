@@ -1,15 +1,16 @@
 // assets/js/pwaInstaller.js
 export class PWAInstaller {
-  constructor(buttonId) {
+  constructor(buttonId, displayMode = 'block') {
     this.button = document.getElementById(buttonId);
     this.deferredPrompt = null;
+    this.displayMode = displayMode;
 
     if (!this.button) return;
 
     window.addEventListener('beforeinstallprompt', (e) => {
       e.preventDefault();
       this.deferredPrompt = e;
-      this.button.style.display = 'block';
+      this.button.style.display = this.displayMode;
       this.button.addEventListener('click', () => this.instalar(), { once: true });
     });
 
