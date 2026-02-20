@@ -6,11 +6,7 @@ window.addEventListener('DOMContentLoaded', () => {
   lucide.createIcons();
 
   const openButton = document.getElementById('openCalculatorBtn');
-
-  const installer = new PWAInstaller('installBtnLanding', 'inline-flex', (isInstalled) => {
-    if (!openButton) return;
-    openButton.dataset.installed = String(isInstalled);
-  });
+  const installer = new PWAInstaller('installBtnLanding', 'inline-flex');
 
   if (openButton) {
     openButton.addEventListener('click', (event) => {
@@ -19,7 +15,11 @@ window.addEventListener('DOMContentLoaded', () => {
       const targetUrl = openButton.getAttribute('href') || 'app.html';
 
       if (installer.isInstalled()) {
-        window.location.assign(targetUrl);
+        // Tenta disparar captura de link do PWA instalado (quando suportado pelo navegador).
+        const popup = window.open(targetUrl, '_blank', 'noopener');
+        if (!popup) {
+          window.location.href = targetUrl;
+        }
         return;
       }
 

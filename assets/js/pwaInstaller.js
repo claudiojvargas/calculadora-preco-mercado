@@ -18,8 +18,8 @@ export class PWAInstaller {
       e.preventDefault();
 
       if (this.installed) {
-        this.button.style.display = 'none';
-        return;
+        // Se o evento apareceu, o app está instalável novamente (evita estado antigo no localStorage).
+        this.setInstalledState(false);
       }
 
       this.deferredPrompt = e;
