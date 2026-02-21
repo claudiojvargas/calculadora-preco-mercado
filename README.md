@@ -20,6 +20,15 @@ Uma calculadora simples e prática para usar durante suas compras no mercado. Id
 - 💾 Salvamento automático das listas
 - 📊 Estatísticas de gastos
 
+
+## 🔐 Supabase (perfil de usuário)
+
+Para habilitar armazenamento de perfil (id, email, nome, avatar e provider), execute o script abaixo no SQL Editor do Supabase:
+
+- `supabase_profiles_schema.sql`
+
+Esse script cria a tabela `public.profiles`, trigger de criação automática no `auth.users` e políticas RLS para cada usuário acessar apenas o próprio perfil.
+
 ## 📦 Versão
 
 **1.0.0**
