@@ -9,21 +9,18 @@ window.addEventListener('DOMContentLoaded', () => {
   const installer = new PWAInstaller('installBtnLanding', 'inline-flex');
 
   if (openButton) {
-    openButton.addEventListener('click', (event) => {
-      event.preventDefault();
-
-      const targetUrl = openButton.getAttribute('href') || 'app.html';
-
+    openButton.addEventListener('click', () => {
       if (installer.isInstalled()) {
-        // Tenta disparar captura de link do PWA instalado (quando suportado pelo navegador).
-        const popup = window.open(targetUrl, '_blank', 'noopener');
+        // Quando instalado, tenta seguir o fluxo de abertura do app instalado.
+        const popup = window.open(window.location.origin, '_blank', 'noopener');
         if (!popup) {
-          window.location.href = targetUrl;
+          window.location.href = window.location.origin;
         }
         return;
       }
 
-      window.location.href = targetUrl;
+      // Sem instalação, abre diretamente a calculadora web.
+      window.location.href = 'app.html';
     });
   }
 
