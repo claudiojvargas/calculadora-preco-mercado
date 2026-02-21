@@ -22,13 +22,23 @@ export async function loginEmail(email, senha) {
 
 // Login social (Google)
 export async function loginGoogle() {
+  const redirectTo = new URL('app.html', window.location.href).toString();
   const { error } = await supabase.auth.signInWithOAuth({
     provider: 'google',
     options: {
-      redirectTo: "http://localhost/calculadora-preco-mercado/" // tem que estar cadastrado no dashboard
+      redirectTo
     }
   });
   if (error) console.error("Erro no login Google:", error.message);
+}
+
+export async function atualizarPerfil(data) {
+  const { data: updatedData, error } = await supabase.auth.updateUser(data);
+  if (error) {
+    console.error('Erro ao atualizar perfil:', error.message);
+    return null;
+  }
+  return updatedData.user || null;
 }
 
 // Pegar usuário logado

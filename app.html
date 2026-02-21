@@ -124,25 +124,70 @@
       Instalar App
     </button>
 
-    <!-- Botão de login Social -->
-    <div class="fixed top-4 right-16 z-50 flex items-center gap-3 bg-gray-100 dark:bg-gray-800 px-4 py-2 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700">
-      <!-- Botão Login Google -->
-      <button id="btnLoginGoogle" 
-        class="flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-red-500 to-yellow-500 text-white font-medium shadow-md hover:opacity-90 transition">
-        <i class="fa-brands fa-google text-lg"></i>
-        Entrar
+    <!-- Ações de autenticação -->
+    <div class="fixed top-4 right-16 z-50">
+      <button id="btnAbrirLoginModal"
+              class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-green-600 hover:bg-green-700 text-white font-semibold shadow-md transition">
+        <i data-lucide="log-in" class="w-4 h-4"></i>
+        Login
       </button>
 
-      <!-- Status -->
-      <p id="status" 
-        class="px-4 py-2 text-sm rounded-xl bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-200 shadow-inner min-w-[100px] text-center">
-      </p>
+      <div id="userMenuContainer" class="hidden relative">
+        <button id="btnAvatar" type="button" aria-expanded="false"
+                class="w-11 h-11 rounded-full overflow-hidden border-2 border-green-600 bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-100 shadow-md flex items-center justify-center">
+          <img id="avatarImage" alt="Avatar do usuário" class="w-full h-full object-cover hidden" />
+          <span id="avatarFallback" class="inline-flex items-center justify-center"></span>
+        </button>
 
-      <!-- Botão Logout -->
-      <button id="btnLogout" 
-        class="flex items-center justify-center px-3 py-2 rounded-xl bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-600 transition shadow-md">
-        <i data-lucide="log-out" class="w-5 h-5"></i>
-      </button>
+        <div id="userDropdown" class="hidden absolute right-0 mt-2 w-60 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl shadow-xl p-2">
+          <div class="px-3 py-2 border-b border-gray-200 dark:border-gray-700 mb-2">
+            <p id="nomeUsuario" class="text-sm font-semibold">Não autenticado</p>
+            <p id="emailUsuario" class="text-xs text-gray-500 dark:text-gray-300">Faça login para continuar</p>
+          </div>
+          <button id="btnEditarPerfil" class="w-full text-left px-3 py-2 text-sm rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition">Editar perfil</button>
+          <button id="btnLogout" class="w-full text-left px-3 py-2 text-sm rounded-lg text-red-600 hover:bg-red-50 dark:hover:bg-red-950/40 transition">Sair</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="loginModal" class="hidden fixed inset-0 z-[70]">
+      <div id="loginModalOverlay" class="absolute inset-0 bg-black/50"></div>
+      <div class="absolute inset-0 flex items-center justify-center p-4">
+        <div class="w-full max-w-sm bg-white dark:bg-gray-800 rounded-2xl shadow-2xl border border-gray-200 dark:border-gray-700 p-6 space-y-4 relative">
+          <button id="btnFecharLoginModal" type="button" class="absolute top-3 right-3 p-1 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700">
+            <i data-lucide="x" class="w-5 h-5"></i>
+          </button>
+
+          <div>
+            <h3 class="text-xl font-bold">Entrar na calculadora</h3>
+            <p class="text-sm text-gray-500 dark:text-gray-300">Use seu email/senha ou continue com Google.</p>
+          </div>
+
+          <form id="loginForm" class="space-y-3">
+            <div>
+              <label for="emailLogin" class="block text-sm mb-1">Email</label>
+              <input id="emailLogin" type="email" required class="w-full rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 px-3 py-2" placeholder="voce@email.com" />
+            </div>
+            <div>
+              <label for="senhaLogin" class="block text-sm mb-1">Senha</label>
+              <input id="senhaLogin" type="password" required class="w-full rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 px-3 py-2" placeholder="••••••••" />
+            </div>
+            <button type="submit" class="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-2.5 rounded-lg transition">Logar</button>
+          </form>
+
+          <button id="btnCriarConta" type="button" class="w-full border border-gray-300 dark:border-gray-600 font-medium py-2.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition">Criar nova conta</button>
+
+          <div class="relative text-center text-xs text-gray-500 dark:text-gray-300">
+            <span class="px-2 bg-white dark:bg-gray-800 relative z-10">ou</span>
+            <div class="absolute left-0 right-0 top-1/2 border-t border-gray-200 dark:border-gray-700 -z-0"></div>
+          </div>
+
+          <button id="btnLoginGoogle" type="button" class="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-gradient-to-r from-red-500 to-yellow-500 text-white font-semibold shadow-md hover:opacity-90 transition">
+            <i class="fa-brands fa-google text-lg"></i>
+            Entrar com Google
+          </button>
+        </div>
+      </div>
     </div>
 
     <!-- Botão de tema -->
