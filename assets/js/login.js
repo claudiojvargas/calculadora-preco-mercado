@@ -78,14 +78,17 @@ export class LoginSocial {
       this.atualizarUI(null);
     });
 
-    window.addEventListener('DOMContentLoaded', async () => {
-      const user = await checarSessao();
-      this.atualizarUI(user);
-    });
+    this.sincronizarSessaoInicial();
 
     escutarMudancaSessao((user) => {
       this.atualizarUI(user);
     });
+  }
+
+
+  async sincronizarSessaoInicial() {
+    const user = await checarSessao();
+    this.atualizarUI(user);
   }
 
   abrirModal() {
