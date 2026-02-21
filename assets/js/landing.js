@@ -1,6 +1,7 @@
 import './pwaRegister.js';
 import { PWAInstaller } from './pwaInstaller.js';
 import { ThemeToggle } from './theme.js';
+import { Toast } from './toast.js';
 
 window.addEventListener('DOMContentLoaded', () => {
   lucide.createIcons();
@@ -11,10 +12,13 @@ window.addEventListener('DOMContentLoaded', () => {
   if (openButton) {
     openButton.addEventListener('click', () => {
       if (installer.isInstalled()) {
+        const path = window.location.pathname;
+        const newPath = path.substring(0, path.lastIndexOf("/"));
+        const appUrl = window.location.origin + newPath;
         // Quando instalado, tenta seguir o fluxo de abertura do app instalado.
-        const popup = window.open(window.location.origin, '_blank', 'noopener');
+        const popup = window.open(appUrl + '/app.html', '_blank', 'noopener');
         if (!popup) {
-          window.location.href = window.location.origin;
+          Toast.mostrar('A calculadora foi aberta!', 'sucesso');
         }
         return;
       }
