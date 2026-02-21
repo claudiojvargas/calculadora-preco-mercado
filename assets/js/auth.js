@@ -1,5 +1,44 @@
 import { supabase } from './supabase.js';
 
+function limparFragmentoOAuth() {
+  const cleanUrl = `${window.location.origin}${window.location.pathname}${window.location.search}`;
+  window.history.replaceState({}, document.title, cleanUrl);
+}
+
+function extrairTokensDoHash() {
+  const hash = window.location.hash?.startsWith('#')
+    ? window.location.hash.slice(1)
+    : window.location.hash;
+
+  if (!hash) return null;
+
+  const params = new URLSearchParams(hash);
+  const accessToken = params.get('access_token');
+  const refreshToken = params.get('refresh_token');
+
+  if (!accessToken || !refreshToken) return null;
+
+  return {
+    access_token: accessToken,
+    refresh_token: refreshToken
+  };
+}
+
+export async function hidratarSessaoDaUrl() {
+  const tokens = extrairTokensDoHash();
+  if (!tokens) return null;
+
+  const { data, error } = await supabase.auth.setSession(tokens);
+  if (error) {
+    console.error('Erro ao hidratar sessão da URL:', error.message);
+    limparFragmentoOAuth();
+    return null;
+  }
+
+  limparFragmentoOAuth();
+  return data.session?.user || null;
+}
+
 async function sincronizarPerfil(user) {
   if (!user) return null;
 
@@ -92,6 +131,12 @@ export async function getUsuarioAtual() {
 
 // Checar sessão ao carregar a aplicação
 export async function checarSessao() {
+  const userDaUrl = await hidratarSessaoDaUrl();
+  if (userDaUrl) {
+    await sincronizarPerfil(userDaUrl);
+    return userDaUrl;
+  }
+
   const { data, error } = await supabase.auth.getSession();
   if (error) {
     console.error('Erro ao recuperar sessão:', error.message);
