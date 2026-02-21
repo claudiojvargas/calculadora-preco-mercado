@@ -29,6 +29,16 @@ Para habilitar armazenamento de perfil (id, email, nome, avatar e provider), exe
 
 Esse script cria a tabela `public.profiles`, trigger de criação automática no `auth.users` e políticas RLS para cada usuário acessar apenas o próprio perfil.
 
+### Solução para erro OAuth `Database error saving new user`
+
+Se aparecer na URL algo como:
+`error=server_error&error_description=Database+error+saving+new+user`,
+normalmente é falha na trigger de `auth.users`.
+
+1. Abra o **SQL Editor** no Supabase.
+2. Execute novamente o arquivo `supabase_profiles_schema.sql` atualizado.
+3. Esse script agora protege a trigger com `exception when others`, evitando bloquear o cadastro/login OAuth quando houver falha de sincronização de perfil.
+
 ## 📦 Versão
 
 **1.0.0**

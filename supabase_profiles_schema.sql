@@ -34,21 +34,27 @@ security definer
 set search_path = public
 as $$
 begin
-  insert into public.profiles (id, email, full_name, avatar_url, provider)
-  values (
-    new.id,
-    new.email,
-    coalesce(new.raw_user_meta_data->>'full_name', new.raw_user_meta_data->>'name'),
-    new.raw_user_meta_data->>'avatar_url',
-    new.app_metadata->>'provider'
-  )
-  on conflict (id) do update
-  set
-    email = excluded.email,
-    full_name = coalesce(excluded.full_name, public.profiles.full_name),
-    avatar_url = coalesce(excluded.avatar_url, public.profiles.avatar_url),
-    provider = coalesce(excluded.provider, public.profiles.provider),
-    updated_at = now();
+  begin
+    insert into public.profiles (id, email, full_name, avatar_url, provider)
+    values (
+      new.id,
+      new.email,
+      coalesce(new.raw_user_meta_data->>'full_name', new.raw_user_meta_data->>'name'),
+      new.raw_user_meta_data->>'avatar_url',
+      new.app_metadata->>'provider'
+    )
+    on conflict (id) do update
+    set
+      email = excluded.email,
+      full_name = coalesce(excluded.full_name, public.profiles.full_name),
+      avatar_url = coalesce(excluded.avatar_url, public.profiles.avatar_url),
+      provider = coalesce(excluded.provider, public.profiles.provider),
+      updated_at = now();
+  exception
+    when others then
+      -- Nunca bloquear a criação do usuário no Auth por erro de perfil.
+      raise warning 'Falha ao sincronizar perfil do usuário %: %', new.id, sqlerrm;
+  end;
 
   return new;
 end;
