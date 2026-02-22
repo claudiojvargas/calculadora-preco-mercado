@@ -1,8 +1,31 @@
 import { supabase } from './supabase.js';
 
-function limparFragmentoOAuth() {
-  const cleanUrl = `${window.location.origin}${window.location.pathname}${window.location.search}`;
-  window.history.replaceState({}, document.title, cleanUrl);
+/**
+ * Retorna a URL absoluta do app.html no mesmo diretório do projeto,
+ * evitando carregar query/hash da página atual.
+ */
+function getAppRedirectUrl() {
+  const path = window.location.pathname;
+  const baseDir = path.endsWith('/')
+    ? path
+    : path.substring(0, path.lastIndexOf('/') + 1);
+
+  return `${window.location.origin}${baseDir}app.html`;
+}
+
+function limparParametrosOAuthDaUrl() {
+  const url = new URL(window.location.href);
+
+  // Remove parâmetros comuns do OAuth / errors
+  url.searchParams.delete('code');
+  url.searchParams.delete('error');
+  url.searchParams.delete('error_code');
+  url.searchParams.delete('error_description');
+
+  // Remove o hash (caso implicit flow)
+  url.hash = '';
+
+  window.history.replaceState({}, document.title, url.toString());
 }
 
 function extrairTokensDoHash() {
@@ -24,42 +47,54 @@ function extrairTokensDoHash() {
   };
 }
 
+/**
+ * Hidrata sessão retornando do OAuth.
+ * - Suporta PKCE/code flow: ?code=...
+ * - Fallback para implicit flow: #access_token=...
+ */
 export async function hidratarSessaoDaUrl() {
-  const tokens = extrairTokensDoHash();
-  if (!tokens) return null;
+  try {
+    const url = new URL(window.location.href);
+    const code = url.searchParams.get('code');
 
-  const { data, error } = await supabase.auth.setSession(tokens);
-  if (error) {
-    console.error('Erro ao hidratar sessão da URL:', error.message);
-    limparFragmentoOAuth();
+    // 1) PKCE / Authorization Code Flow
+    if (code) {
+      const { data, error } = await supabase.auth.exchangeCodeForSession(code);
+      if (error) {
+        console.error('Erro ao trocar code por sessão:', error.message);
+        limparParametrosOAuthDaUrl();
+        return null;
+      }
+
+      limparParametrosOAuthDaUrl();
+      return data.session?.user || null;
+    }
+
+    // 2) Implicit Flow (tokens no hash)
+    const tokens = extrairTokensDoHash();
+    if (!tokens) return null;
+
+    const { data, error } = await supabase.auth.setSession(tokens);
+    if (error) {
+      console.error('Erro ao hidratar sessão do hash:', error.message);
+      limparParametrosOAuthDaUrl();
+      return null;
+    }
+
+    limparParametrosOAuthDaUrl();
+    return data.session?.user || null;
+  } catch (err) {
+    console.error('Erro inesperado ao hidratar sessão:', err);
+    limparParametrosOAuthDaUrl();
     return null;
   }
-
-  limparFragmentoOAuth();
-  return data.session?.user || null;
 }
 
-async function sincronizarPerfil(user) {
-  if (!user) return null;
-
-  const payload = {
-    id: user.id,
-    email: user.email || null,
-    full_name: user.user_metadata?.full_name || user.user_metadata?.name || null,
-    avatar_url: user.user_metadata?.avatar_url || null,
-    provider: user.app_metadata?.provider || null
-  };
-
-  const { error } = await supabase
-    .from('profiles')
-    .upsert(payload, { onConflict: 'id' });
-
-  if (error) {
-    console.error('Erro ao sincronizar perfil:', error.message);
-  }
-
-  return user;
-}
+// --------------------------------------------
+// IMPORTANTE
+// Profiles serão criados pelo TRIGGER no banco.
+// Não faça upsert no client (evita 401).
+// --------------------------------------------
 
 // Registrar usuário por email
 export async function registrarEmail(email, senha) {
@@ -67,16 +102,14 @@ export async function registrarEmail(email, senha) {
     email,
     password: senha
   });
+
   if (error) {
     console.error('Erro no registro:', error.message);
     return null;
   }
 
-  if (data.user) {
-    await sincronizarPerfil(data.user);
-  }
-
-  return data.user;
+  // NÃO sincroniza profiles aqui (DB trigger faz isso)
+  return data.user || null;
 }
 
 // Login com email/senha
@@ -85,41 +118,43 @@ export async function loginEmail(email, senha) {
     email,
     password: senha
   });
+
   if (error) {
     console.error('Erro no login:', error.message);
     return null;
   }
 
-  if (data.user) {
-    await sincronizarPerfil(data.user);
-  }
-
-  return data.user;
+  // NÃO sincroniza profiles aqui (evita 401)
+  return data.user || null;
 }
 
 // Login social (Google)
 export async function loginGoogle() {
-  const redirectTo = new URL('app.html', window.location.href).toString();
+  const redirectTo = getAppRedirectUrl();
+
   const { error } = await supabase.auth.signInWithOAuth({
     provider: 'google',
-    options: {
-      redirectTo
-    }
+    options: { redirectTo }
   });
-  if (error) console.error('Erro no login Google:', error.message);
+
+  if (error) {
+    console.error('Erro no login Google:', error.message);
+    return null;
+  }
+
+  return true;
 }
 
 export async function atualizarPerfil(data) {
   const { data: updatedData, error } = await supabase.auth.updateUser(data);
+
   if (error) {
     console.error('Erro ao atualizar perfil:', error.message);
     return null;
   }
 
-  if (updatedData.user) {
-    await sincronizarPerfil(updatedData.user);
-  }
-
+  // Se você quiser refletir mudanças no profiles,
+  // faça isso no banco (trigger on update) ou via RPC/Edge Function.
   return updatedData.user || null;
 }
 
@@ -131,34 +166,30 @@ export async function getUsuarioAtual() {
 
 // Checar sessão ao carregar a aplicação
 export async function checarSessao() {
+  // 1) Se veio de OAuth callback, hidrata sessão
   const userDaUrl = await hidratarSessaoDaUrl();
-  if (userDaUrl) {
-    await sincronizarPerfil(userDaUrl);
-    return userDaUrl;
-  }
+  if (userDaUrl) return userDaUrl;
 
+  // 2) Se já existe sessão salva no browser
   const { data, error } = await supabase.auth.getSession();
   if (error) {
     console.error('Erro ao recuperar sessão:', error.message);
     return null;
   }
 
-  if (data.session?.user) {
-    await sincronizarPerfil(data.session.user);
-  }
-
   return data.session?.user || null;
 }
 
+/**
+ * Escuta mudanças de sessão.
+ * Retorna uma função para "desinscrever".
+ */
 export function escutarMudancaSessao(callback) {
-  supabase.auth.onAuthStateChange((_event, session) => {
-    if (session?.user) {
-      sincronizarPerfil(session.user);
-      callback(session.user);
-    } else {
-      callback(null);
-    }
+  const { data } = supabase.auth.onAuthStateChange((_event, session) => {
+    callback(session?.user || null);
   });
+
+  return () => data.subscription.unsubscribe();
 }
 
 // Logout

@@ -34,6 +34,8 @@ export class LoginSocial {
     this.nomeUsuario = document.getElementById('nomeUsuario');
     this.emailUsuario = document.getElementById('emailUsuario');
 
+    this._unsubAuth = null;
+
     this.init();
   }
 
@@ -80,11 +82,11 @@ export class LoginSocial {
 
     this.sincronizarSessaoInicial();
 
-    escutarMudancaSessao((user) => {
+    // Mantém a UI sincronizada com mudanças de sessão (login/logout/oauth callback)
+    this._unsubAuth = escutarMudancaSessao((user) => {
       this.atualizarUI(user);
     });
   }
-
 
   async sincronizarSessaoInicial() {
     const user = await checarSessao();
@@ -142,10 +144,10 @@ export class LoginSocial {
 
     const nomeAtual = user.user_metadata?.full_name || user.user_metadata?.name || '';
     const novoNome = prompt('Digite seu nome para exibir no perfil:', nomeAtual);
-
     if (novoNome === null) return;
 
     const nomeTratado = novoNome.trim();
+
     const atualizado = await atualizarPerfil({
       data: { full_name: nomeTratado }
     });
@@ -161,12 +163,20 @@ export class LoginSocial {
 
   atualizarUI(user) {
     if (user) {
+      this.btnAbrirModal.classList.remove('inline-flex');
       this.btnAbrirModal.classList.add('hidden');
       this.menuContainer.classList.remove('hidden');
-      this.nomeUsuario.textContent = user.user_metadata?.full_name || user.user_metadata?.name || 'Usuário';
+
+      this.nomeUsuario.textContent =
+        user.user_metadata?.full_name || user.user_metadata?.name || 'Usuário';
+
       this.emailUsuario.textContent = user.email || '';
 
-      const foto = user.user_metadata?.avatar_url;
+      const foto =
+        user.user_metadata?.avatar_url ||
+        user.user_metadata?.picture ||
+        null;
+
       if (foto) {
         this.avatarImage.src = foto;
         this.avatarImage.classList.remove('hidden');
@@ -183,11 +193,13 @@ export class LoginSocial {
       this.menuContainer.classList.add('hidden');
       this.menuDropdown.classList.add('hidden');
       this.btnAvatar.setAttribute('aria-expanded', 'false');
+
       this.formLogin.reset();
       this.avatarImage.removeAttribute('src');
       this.avatarImage.classList.add('hidden');
       this.avatarFallback.classList.remove('hidden');
       this.avatarFallback.innerHTML = DEFAULT_AVATAR;
+
       this.nomeUsuario.textContent = 'Não autenticado';
       this.emailUsuario.textContent = 'Faça login para continuar';
     }
