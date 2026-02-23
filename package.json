@@ -24,6 +24,8 @@
     "tailwindcss": "^4.1.11"
   },
   "dependencies": {
-    "@tailwindcss/cli": "^4.1.11"
+    "@supabase/supabase-js": "^2.57.4",
+    "@tailwindcss/cli": "^4.1.11",
+    "tailwind-scrollbar-hide": "^4.0.0"
   }
 }
