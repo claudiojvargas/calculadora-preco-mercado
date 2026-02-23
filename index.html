@@ -9,114 +9,207 @@
     <link rel="stylesheet" href="assets/css/style.css" />
     <script src="https://unpkg.com/lucide@latest"></script>
   </head>
+
   <body class="bg-gray-50 text-gray-800 dark:bg-gray-900 dark:text-gray-100 min-h-screen">
-    <header class="max-w-6xl mx-auto px-6 py-8 flex items-center justify-between">
+    <!-- Header -->
+    <header
+      class="max-w-6xl mx-auto px-4 sm:px-6 py-6 sm:py-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4"
+    >
       <div class="flex items-center gap-3">
-        <span class="inline-flex items-center justify-center w-11 h-11 rounded-2xl bg-green-600 text-white shadow-md">
-          <i data-lucide="shopping-cart" class="w-6 h-6"></i>
+        <span
+          class="inline-flex items-center justify-center w-10 h-10 sm:w-11 sm:h-11 rounded-2xl bg-green-600 text-white shadow-md"
+        >
+          <i data-lucide="shopping-cart" class="w-5 h-5 sm:w-6 sm:h-6"></i>
         </span>
-        <h1 class="text-xl font-bold leading-none">Calculadora de Compras</h1>
+        <h1 class="text-lg sm:text-xl font-bold leading-none">Calculadora de Compras</h1>
       </div>
-      <div class="flex items-center gap-3">
-        <button id="installBtnLanding" class="inline-flex items-center gap-2 bg-blue-600 hover:opacity-90 text-white font-semibold px-5 py-2.5 rounded-xl transition-all shadow-sm">
+
+      <!-- Ações -->
+      <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full sm:w-auto">
+        <button
+          id="installBtnLanding"
+          class="inline-flex justify-center items-center gap-2 bg-blue-600 hover:opacity-90 text-white font-semibold px-5 py-3 rounded-xl transition-all shadow-sm w-full sm:w-auto"
+        >
           <i data-lucide="download" class="w-4 h-4"></i>
-          Instalar
+          <span>Instalar</span>
         </button>
-        <a href="app.html" class="inline-flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white font-semibold px-5 py-2.5 rounded-xl transition-all shadow-sm">
+
+        <a
+          href="app.html"
+          class="inline-flex justify-center items-center gap-2 bg-green-600 hover:bg-green-700 text-white font-semibold px-5 py-3 rounded-xl transition-all shadow-sm w-full sm:w-auto"
+        >
           <i data-lucide="arrow-right" class="w-4 h-4"></i>
-          Abrir calculadora
+          <span>Abrir calculadora</span>
         </a>
       </div>
     </header>
 
-    <main class="max-w-6xl mx-auto px-6 pb-16 space-y-16">
-      <section class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-3xl p-8 md:p-12 shadow-sm">
-        <div class="grid md:grid-cols-2 gap-10 items-center">
+    <!-- Conteúdo -->
+    <main class="max-w-6xl mx-auto px-4 sm:px-6 pb-16 space-y-12 sm:space-y-16">
+      <!-- Hero -->
+      <section
+        class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-3xl p-6 sm:p-8 md:p-12 shadow-sm"
+      >
+        <div class="grid md:grid-cols-2 gap-8 md:gap-10 items-center">
           <div class="space-y-5">
-            <span class="inline-flex items-center gap-2 text-sm font-semibold text-green-700 dark:text-green-500 bg-green-100 dark:bg-green-900/30 px-3 py-1 rounded-full">
+            <span
+              class="inline-flex items-center gap-2 text-sm font-semibold text-green-700 dark:text-green-500 bg-green-100 dark:bg-green-900/30 px-3 py-1 rounded-full"
+            >
               <i data-lucide="sparkles" class="w-4 h-4"></i>
               Simples, rápida e feita para o dia a dia
             </span>
-            <h2 class="text-3xl md:text-4xl font-bold leading-tight">
+
+            <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold leading-tight">
               Tenha controle do carrinho antes de chegar no caixa.
             </h2>
-            <p class="text-gray-600 dark:text-gray-300 text-lg">
-              A Calculadora de Compras ajuda você a registrar produtos e acompanhar o total em tempo real, evitando surpresas no mercado.
+
+            <p class="text-gray-600 dark:text-gray-300 text-base sm:text-lg">
+              A Calculadora de Compras ajuda você a registrar produtos e acompanhar o total em tempo real, evitando
+              surpresas no mercado.
             </p>
-            <div class="flex flex-wrap gap-3">
-              <a href="app.html" class="bg-green-600 hover:bg-green-700 text-white font-semibold px-6 py-3 rounded-xl transition-all">Começar agora</a>
-              <a href="#roadmap" class="border border-gray-300 dark:border-gray-600 hover:border-green-600 font-semibold px-6 py-3 rounded-xl transition-all">Ver roadmap</a>
+
+            <div class="flex flex-col sm:flex-row flex-wrap gap-3">
+              <a
+                href="app.html"
+                class="w-full sm:w-auto text-center bg-green-600 hover:bg-green-700 text-white font-semibold px-6 py-3 rounded-xl transition-all"
+              >
+                Começar agora
+              </a>
+
+              <a
+                href="#roadmap"
+                class="w-full sm:w-auto text-center border border-gray-300 dark:border-gray-600 hover:border-green-600 font-semibold px-6 py-3 rounded-xl transition-all"
+              >
+                Ver roadmap
+              </a>
             </div>
           </div>
-          <div class="bg-gradient-to-br from-green-600 to-blue-600 rounded-3xl p-8 text-white shadow-xl">
-            <h3 class="text-xl font-bold mb-5">O que você consegue fazer</h3>
+
+          <div class="bg-gradient-to-br from-green-600 to-blue-600 rounded-3xl p-6 sm:p-8 text-white shadow-xl">
+            <h3 class="text-lg sm:text-xl font-bold mb-5">O que você consegue fazer</h3>
             <ul class="space-y-4 text-white/95">
-              <li class="flex items-start gap-3"><i data-lucide="check-circle-2" class="w-5 h-5 mt-0.5"></i>Adicionar itens rapidamente durante as compras.</li>
-              <li class="flex items-start gap-3"><i data-lucide="check-circle-2" class="w-5 h-5 mt-0.5"></i>Visualizar quantidade e valor total instantaneamente.</li>
-              <li class="flex items-start gap-3"><i data-lucide="check-circle-2" class="w-5 h-5 mt-0.5"></i>Usar no celular como app instalado com suporte PWA.</li>
+              <li class="flex items-start gap-3">
+                <i data-lucide="check-circle-2" class="w-5 h-5 mt-0.5"></i>
+                <span>Adicionar itens rapidamente durante as compras.</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <i data-lucide="check-circle-2" class="w-5 h-5 mt-0.5"></i>
+                <span>Visualizar quantidade e valor total instantaneamente.</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <i data-lucide="check-circle-2" class="w-5 h-5 mt-0.5"></i>
+                <span>Usar no celular como app instalado com suporte PWA.</span>
+              </li>
             </ul>
           </div>
         </div>
       </section>
 
+      <!-- Features -->
       <section>
         <div class="mb-6">
-          <h2 class="text-2xl md:text-3xl font-bold">Funções da calculadora</h2>
-          <p class="text-gray-600 dark:text-gray-300 mt-2">Tudo foi pensado para ser direto e eficiente enquanto você compra.</p>
+          <h2 class="text-xl sm:text-2xl md:text-3xl font-bold">Funções da calculadora</h2>
+          <p class="text-gray-600 dark:text-gray-300 mt-2">
+            Tudo foi pensado para ser direto e eficiente enquanto você compra.
+          </p>
         </div>
+
         <div class="grid md:grid-cols-3 gap-4">
-          <article class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl p-6 space-y-3">
+          <article
+            class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl p-6 space-y-3"
+          >
             <i data-lucide="plus-circle" class="w-8 h-8 text-green-600"></i>
             <h3 class="font-semibold text-lg">Cadastro rápido de produtos</h3>
             <p class="text-gray-600 dark:text-gray-300">Adicione nome e valor de cada item em poucos toques.</p>
           </article>
-          <article class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl p-6 space-y-3">
+
+          <article
+            class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl p-6 space-y-3"
+          >
             <i data-lucide="calculator" class="w-8 h-8 text-blue-600"></i>
             <h3 class="font-semibold text-lg">Total em tempo real</h3>
             <p class="text-gray-600 dark:text-gray-300">Acompanhe automaticamente quanto já foi gasto no carrinho.</p>
           </article>
-          <article class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl p-6 space-y-3">
+
+          <article
+            class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl p-6 space-y-3"
+          >
             <i data-lucide="sun-moon" class="w-8 h-8 text-gray-600"></i>
             <h3 class="font-semibold text-lg">Tema claro e escuro</h3>
-            <p class="text-gray-600 dark:text-gray-300">Use do jeito que preferir, com visual limpo em qualquer ambiente.</p>
+            <p class="text-gray-600 dark:text-gray-300">
+              Use do jeito que preferir, com visual limpo em qualquer ambiente.
+            </p>
           </article>
         </div>
       </section>
 
-      <section id="roadmap" class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-3xl p-8 md:p-10">
-        <h2 class="text-2xl md:text-3xl font-bold mb-2">Roadmap de evolução</h2>
-        <p class="text-gray-600 dark:text-gray-300 mb-8">Próximos passos planejados para deixar a calculadora ainda mais completa.</p>
+      <!-- Roadmap -->
+      <section
+        id="roadmap"
+        class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-3xl p-6 sm:p-8 md:p-10"
+      >
+        <h2 class="text-xl sm:text-2xl md:text-3xl font-bold mb-2">Roadmap de evolução</h2>
+        <p class="text-gray-600 dark:text-gray-300 mb-8">
+          Próximos passos planejados para deixar a calculadora ainda mais completa.
+        </p>
+
         <div class="space-y-4">
-          <div class="flex items-start gap-4 p-4 rounded-xl bg-gray-50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700">
-            <span class="w-8 h-8 rounded-full bg-green-600 text-white text-sm font-bold flex items-center justify-center">1</span>
+          <div
+            class="flex items-start gap-4 p-4 rounded-xl bg-gray-50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700"
+          >
+            <span class="w-8 h-8 rounded-full bg-green-600 text-white text-sm font-bold flex items-center justify-center"
+              >1</span
+            >
             <div>
               <h3 class="font-semibold">Edição de produtos já adicionados</h3>
-              <p class="text-gray-600 dark:text-gray-300">Ajustar valores e nomes sem precisar remover e cadastrar novamente.</p>
+              <p class="text-gray-600 dark:text-gray-300">
+                Ajustar valores e nomes sem precisar remover e cadastrar novamente.
+              </p>
             </div>
           </div>
-          <div class="flex items-start gap-4 p-4 rounded-xl bg-gray-50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700">
-            <span class="w-8 h-8 rounded-full bg-blue-600 text-white text-sm font-bold flex items-center justify-center">2</span>
+
+          <div
+            class="flex items-start gap-4 p-4 rounded-xl bg-gray-50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700"
+          >
+            <span class="w-8 h-8 rounded-full bg-blue-600 text-white text-sm font-bold flex items-center justify-center"
+              >2</span
+            >
             <div>
               <h3 class="font-semibold">Listas salvas por mercado ou ocasião</h3>
-              <p class="text-gray-600 dark:text-gray-300">Criar listas reutilizáveis para compras semanais, mensais ou especiais.</p>
+              <p class="text-gray-600 dark:text-gray-300">
+                Criar listas reutilizáveis para compras semanais, mensais ou especiais.
+              </p>
             </div>
           </div>
-          <div class="flex items-start gap-4 p-4 rounded-xl bg-gray-50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700">
-            <span class="w-8 h-8 rounded-full bg-gray-700 text-white text-sm font-bold flex items-center justify-center">3</span>
+
+          <div
+            class="flex items-start gap-4 p-4 rounded-xl bg-gray-50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700"
+          >
+            <span
+              class="w-8 h-8 rounded-full bg-gray-700 text-white text-sm font-bold flex items-center justify-center"
+              >3</span
+            >
             <div>
               <h3 class="font-semibold">Relatórios simples de gastos</h3>
-              <p class="text-gray-600 dark:text-gray-300">Visualizar histórico e médias para melhorar o planejamento do orçamento.</p>
+              <p class="text-gray-600 dark:text-gray-300">
+                Visualizar histórico e médias para melhorar o planejamento do orçamento.
+              </p>
             </div>
           </div>
         </div>
       </section>
     </main>
 
+    <!-- Footer -->
     <footer class="py-6 px-6 text-center text-sm text-gray-500 dark:text-gray-400">
-     2026 Calculadora Preço
+      2026 Calculadora Preço
     </footer>
 
-    <button id="btn-tema" class="fixed top-6 right-4 p-2 rounded-full shadow bg-white dark:bg-gray-800 text-gray-800 dark:text-white transition-colors">
+    <!-- Botão tema (no mobile fica embaixo, no desktop no topo) -->
+    <button
+      id="btn-tema"
+      class="fixed bottom-6 right-4 sm:top-6 sm:bottom-auto p-2 rounded-full shadow bg-white dark:bg-gray-800 text-gray-800 dark:text-white transition-colors z-50"
+    >
       <i data-lucide="moon" id="icone-tema"></i>
     </button>
 
