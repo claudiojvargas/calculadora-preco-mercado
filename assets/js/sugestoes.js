@@ -18,7 +18,7 @@ export class Sugestoes {
       filtrados.forEach(prod => {
         const li = document.createElement('li');
         li.textContent = prod;
-        li.className = 'p-2 cursor-pointer hover:bg-gray-100';
+        li.className = 'p-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700';
         li.addEventListener('click', () => {
           this.input.value = prod;
           this.listaSugestoes.classList.add('hidden');

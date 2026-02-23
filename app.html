@@ -3,112 +3,121 @@
   <head>
     <meta charset="UTF-8" />
     <title>Calculadora de Compras</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="assets/icon/favicon.ico" type="image/x-icon">
-    <link rel="manifest" href="manifest.json">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="assets/icon/favicon.ico" type="image/x-icon" />
+    <link rel="manifest" href="manifest.json" />
     <script src="https://unpkg.com/lucide@latest"></script>
-    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/style.css" />
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
-    <script src="https://kit.fontawesome.com/e49f1d70d5.js" crossorigin="anonymous"></script>
-
+    <script
+      src="https://kit.fontawesome.com/e49f1d70d5.js"
+      crossorigin="anonymous"
+    ></script>
   </head>
-  <body class="bg-gray-50 dark:bg-gray-900 min-h-screen flex flex-col items-center py-10 px-4 text-gray-800 dark:text-gray-100 pb-32 transition-colors duration-300 overflow-hidden">
 
-    <!-- BLOCO PAI -->
-  <div class="w-full max-w-md absolute top-6 left-4">
+  <body
+    class="bg-gray-50 dark:bg-gray-900 h-[100dvh] overflow-hidden flex flex-col items-center px-4 text-gray-800 dark:text-gray-100 transition-colors duration-300"
+  >
+    <!-- BLOCO PAI (Título no canto superior esquerdo) -->
+    <div class="w-full max-w-md absolute top-6 left-4">
+      <h1
+        class="flex gap-2 text-3xl font-bold mb-8 text-gray-800 dark:text-gray-100 justify-start text-left"
+      >
+        <i data-lucide="shopping-cart" class="w-8 h-8 text-green-600"></i>
 
-    <!-- Título -->
-    <h1 class="flex gap-2 text-3xl font-bold mb-8
-               text-gray-800 dark:text-gray-100
-               justify-start text-left">
-
-      <i data-lucide="shopping-cart"
-         class="w-8 h-8 text-green-600">
-      </i>
-
-      <!-- some no mobile -->
-      <span class="hidden sm:inline">
-        <!--Calculadora de Compras-->
-      </span>
-
-    </h1>
-
-  </div>
-
-    <!-- Formulário -->
-    <div class="w-full max-w-md bg-white dark:bg-gray-800 rounded-2xl shadow p-6 space-y-5 mt-15">
-  
-  <!-- Container dos dois campos -->
-  <div class="grid grid-cols-3 gap-4">
-    
-    <!-- Nome do Produto (2/3) -->
-    <div class="col-span-2 relative">
-      <label for="nome-produto" class="block text-sm font-medium mb-1">
-        Nome do Produto
-      </label>
-      <input 
-        type="text" 
-        id="nome-produto"
-        class="w-full border-gray-300 dark:border-gray-700 rounded-lg shadow-sm focus:ring-green-500 focus:border-green-500 px-4 py-2 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100" 
-        placeholder="Ex: Maçã"
-      />
-
-      <!-- Lista de sugestões -->
-      <ul 
-        id="sugestoes" 
-        class="absolute w-full bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-md mt-1 max-h-40 overflow-y-auto hidden text-gray-900 dark:text-gray-100">
-      </ul>
+        <!-- some no mobile -->
+        <span class="hidden sm:inline">
+          <!-- Calculadora de Compras -->
+        </span>
+      </h1>
     </div>
 
-    <!-- Valor (1/3) -->
-    <div>
-      <label for="valor-produto" class="block text-sm font-medium mb-1">
-        Valor (R$)
-      </label>
-      <input 
-        type="text" 
-        id="valor-produto"
-        class="w-full border-gray-300 dark:border-gray-700 rounded-lg shadow-sm focus:ring-green-500 focus:border-green-500 px-4 py-2 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100" 
-        placeholder="2.50"
-      />
-    </div>
+    <!-- MIolo responsivo: formulário + lista (lista é a única que rola) -->
+    <main class="w-full max-w-md flex flex-col flex-1 min-h-0 mt-16">
+      <!-- Formulário -->
+      <div class="w-full bg-white dark:bg-gray-800 rounded-2xl shadow p-6 space-y-5">
+        <!-- Container dos dois campos -->
+        <div class="grid grid-cols-3 gap-4">
+          <!-- Nome do Produto (2/3) -->
+          <div class="col-span-2 relative">
+            <label for="nome-produto" class="block text-sm font-medium mb-1">
+              Nome do Produto
+            </label>
+            <input
+              type="text"
+              id="nome-produto"
+              class="w-full border-gray-300 dark:border-gray-700 rounded-lg shadow-sm focus:ring-green-500 focus:border-green-500 px-4 py-2 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100"
+              placeholder="Ex: Maçã"
+            />
 
-  </div>
+            <!-- Lista de sugestões -->
+            <ul
+              id="sugestoes"
+              class="absolute w-full bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-md mt-1 max-h-40 overflow-y-auto hidden text-gray-900 dark:text-gray-100"
+            ></ul>
+          </div>
 
-  <!-- Botão -->
-  <button id="btn-adicionar"
-    class="w-full bg-green-600 hover:bg-green-700 transition-all text-white font-semibold py-3 rounded-lg flex items-center justify-center gap-2">
-    <i data-lucide="plus-circle" class="w-5 h-5"></i>
-    Adicionar Produto
-  </button>
+          <!-- Valor (1/3) -->
+          <div>
+            <label for="valor-produto" class="block text-sm font-medium mb-1">
+              Valor (R$)
+            </label>
+            <input
+              type="text"
+              id="valor-produto"
+              class="w-full border-gray-300 dark:border-gray-700 rounded-lg shadow-sm focus:ring-green-500 focus:border-green-500 px-4 py-2 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100"
+              placeholder="2.50"
+            />
+          </div>
+        </div>
 
-</div>
+        <!-- Botão -->
+        <button
+          id="btn-adicionar"
+          class="w-full bg-green-600 hover:bg-green-700 transition-all text-white font-semibold py-3 rounded-lg flex items-center justify-center gap-2"
+        >
+          <i data-lucide="plus-circle" class="w-5 h-5"></i>
+          Adicionar Produto
+        </button>
+      </div>
 
-    <!-- Lista de Produtos -->
-   <div class="mt-10 w-full max-w-md">
-  <h2 class="text-2xl font-semibold mb-4">
-    Produtos Adicionados
-  </h2>
+      <!-- Lista de Produtos (ÚNICO scroll da página) -->
+      <section class="mt-6 flex flex-col flex-1 min-h-0">
+        <h2 class="text-2xl font-semibold mb-4">Produtos Adicionados</h2>
 
-  <ul id="produtos-list"
-      class="space-y-4 max-h-130 overflow-y-auto pr-2 scrollbar-hide pb-50">
-  </ul>
-</div>
+        <ul
+          id="produtos-list"
+          class="space-y-4 flex-1 min-h-0 overflow-y-auto pr-2 scrollbar-hide
+                 pb-[calc(120px+env(safe-area-inset-bottom))]"
+        ></ul>
+      </section>
+    </main>
 
     <!-- Painel fixo inferior -->
-    <div class="fixed bottom-0 left-0 w-full bg-white dark:bg-gray-800 border-t border-gray-300 dark:border-gray-700 shadow-md z-50">
-      <div class="max-w-4xl mx-auto px-4 py-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+    <div
+      class="fixed bottom-0 left-0 w-full bg-white dark:bg-gray-800 border-t border-gray-300 dark:border-gray-700 shadow-md z-50"
+    >
+      <div
+        class="max-w-4xl mx-auto px-4 py-4 flex flex-col sm:flex-row items-center justify-between gap-4"
+      >
         <div class="flex items-center gap-3">
           <i data-lucide="package" class="w-6 h-6 text-blue-600"></i>
           <div>
-            <p class="text-sm text-gray-500 dark:text-gray-400" hidden>Quantidade de Itens</p>
-            <p id="contagem-itens" class="text-lg font-bold text-blue-600">0 item(s)</p>
+            <p class="text-sm text-gray-500 dark:text-gray-400" hidden>
+              Quantidade de Itens
+            </p>
+            <p id="contagem-itens" class="text-lg font-bold text-blue-600">
+              0 item(s)
+            </p>
           </div>
         </div>
+
         <div class="flex items-center gap-3">
           <i data-lucide="dollar-sign" class="w-6 h-6 text-green-600"></i>
           <div>
-            <p class="text-sm text-gray-500 dark:text-gray-400" hidden>Valor Total</p>
+            <p class="text-sm text-gray-500 dark:text-gray-400" hidden>
+              Valor Total
+            </p>
             <p id="total" class="text-lg font-bold text-green-600">R$ 0,00</p>
           </div>
         </div>
@@ -116,36 +125,69 @@
     </div>
 
     <!-- Toast Container -->
-    <div id="toast-container" class="fixed top-4 right-4 space-y-3 z-50 max-w-sm w-full"></div>
+    <div
+      id="toast-container"
+      class="fixed top-4 right-4 space-y-3 z-50 max-w-sm w-full"
+    ></div>
 
-    <button id="installBtn"
-            class="fixed bottom-2 left-1/2 transform -translate-x-1/2 bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-lg shadow-lg transition duration-300 z-50"
-            style="display: none;">
+    <button
+      id="installBtn"
+      class="fixed bottom-2 left-1/2 transform -translate-x-1/2 bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-lg shadow-lg transition duration-300 z-50"
+      style="display: none"
+    >
       Instalar App
     </button>
 
     <!-- Ações de autenticação -->
     <div class="fixed top-6 right-16 z-50">
-      <button id="btnAbrirLoginModal"
-              class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-green-600 hover:bg-green-700 text-white font-semibold shadow-md transition">
+      <button
+        id="btnAbrirLoginModal"
+        class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-green-600 hover:bg-green-700 text-white font-semibold shadow-md transition"
+      >
         <i data-lucide="log-in" class="w-4 h-4"></i>
         Login
       </button>
 
       <div id="userMenuContainer" class="hidden relative">
-        <button id="btnAvatar" type="button" aria-expanded="false"
-                class="w-10 h-10 rounded-full overflow-hidden bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-100 shadow-md flex items-center justify-center">
-          <img id="avatarImage" alt="Avatar do usuário" class="w-full h-full object-cover hidden" />
+        <button
+          id="btnAvatar"
+          type="button"
+          aria-expanded="false"
+          class="w-10 h-10 rounded-full overflow-hidden bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-100 shadow-md flex items-center justify-center"
+        >
+          <img
+            id="avatarImage"
+            alt="Avatar do usuário"
+            class="w-full h-full object-cover hidden"
+          />
           <span id="avatarFallback" class="inline-flex items-center justify-center"></span>
         </button>
 
-        <div id="userDropdown" class="hidden absolute right-0 mt-2 w-60 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl shadow-xl p-2">
+        <div
+          id="userDropdown"
+          class="hidden absolute right-0 mt-2 w-60 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl shadow-xl p-2"
+        >
           <div class="px-3 py-2 border-b border-gray-200 dark:border-gray-700 mb-2">
             <p id="nomeUsuario" class="text-sm font-semibold">Não autenticado</p>
-            <p id="emailUsuario" class="text-xs text-gray-500 dark:text-gray-300">Faça login para continuar</p>
+            <p
+              id="emailUsuario"
+              class="text-xs text-gray-500 dark:text-gray-300"
+            >
+              Faça login para continuar
+            </p>
           </div>
-          <button id="btnEditarPerfil" class="w-full text-left px-3 py-2 text-sm rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition">Editar perfil</button>
-          <button id="btnLogout" class="w-full text-left px-3 py-2 text-sm rounded-lg text-red-600 hover:bg-red-50 dark:hover:bg-red-950/40 transition">Sair</button>
+          <button
+            id="btnEditarPerfil"
+            class="w-full text-left px-3 py-2 text-sm rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition"
+          >
+            Editar perfil
+          </button>
+          <button
+            id="btnLogout"
+            class="w-full text-left px-3 py-2 text-sm rounded-lg text-red-600 hover:bg-red-50 dark:hover:bg-red-950/40 transition"
+          >
+            Sair
+          </button>
         </div>
       </div>
     </div>
@@ -153,36 +195,73 @@
     <div id="loginModal" class="hidden fixed inset-0 z-[70]">
       <div id="loginModalOverlay" class="absolute inset-0 bg-black/50"></div>
       <div class="absolute inset-0 flex items-center justify-center p-4">
-        <div class="w-full max-w-sm bg-white dark:bg-gray-800 rounded-2xl shadow-2xl border border-gray-200 dark:border-gray-700 p-6 space-y-4 relative">
-          <button id="btnFecharLoginModal" type="button" class="absolute top-3 right-3 p-1 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700">
+        <div
+          class="w-full max-w-sm bg-white dark:bg-gray-800 rounded-2xl shadow-2xl border border-gray-200 dark:border-gray-700 p-6 space-y-4 relative"
+        >
+          <button
+            id="btnFecharLoginModal"
+            type="button"
+            class="absolute top-3 right-3 p-1 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700"
+          >
             <i data-lucide="x" class="w-5 h-5"></i>
           </button>
 
           <div>
             <h3 class="text-xl font-bold">Entrar na calculadora</h3>
-            <p class="text-sm text-gray-500 dark:text-gray-300">Use seu email/senha ou continue com Google.</p>
+            <p class="text-sm text-gray-500 dark:text-gray-300">
+              Use seu email/senha ou continue com Google.
+            </p>
           </div>
 
           <form id="loginForm" class="space-y-3">
             <div>
               <label for="emailLogin" class="block text-sm mb-1">Email</label>
-              <input id="emailLogin" type="email" required class="w-full rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 px-3 py-2" placeholder="voce@email.com" />
+              <input
+                id="emailLogin"
+                type="email"
+                required
+                class="w-full rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 px-3 py-2"
+                placeholder="voce@email.com"
+              />
             </div>
             <div>
               <label for="senhaLogin" class="block text-sm mb-1">Senha</label>
-              <input id="senhaLogin" type="password" required class="w-full rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 px-3 py-2" placeholder="••••••••" />
+              <input
+                id="senhaLogin"
+                type="password"
+                required
+                class="w-full rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 px-3 py-2"
+                placeholder="••••••••"
+              />
             </div>
-            <button type="submit" class="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-2.5 rounded-lg transition">Logar</button>
+            <button
+              type="submit"
+              class="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-2.5 rounded-lg transition"
+            >
+              Logar
+            </button>
           </form>
 
-          <button id="btnCriarConta" type="button" class="w-full border border-gray-300 dark:border-gray-600 font-medium py-2.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition">Criar nova conta</button>
+          <button
+            id="btnCriarConta"
+            type="button"
+            class="w-full border border-gray-300 dark:border-gray-600 font-medium py-2.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition"
+          >
+            Criar nova conta
+          </button>
 
           <div class="relative text-center text-xs text-gray-500 dark:text-gray-300">
             <span class="px-2 bg-white dark:bg-gray-800 relative z-10">ou</span>
-            <div class="absolute left-0 right-0 top-1/2 border-t border-gray-200 dark:border-gray-700 -z-0"></div>
+            <div
+              class="absolute left-0 right-0 top-1/2 border-t border-gray-200 dark:border-gray-700 -z-0"
+            ></div>
           </div>
 
-          <button id="btnLoginGoogle" type="button" class="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-gradient-to-r from-red-500 to-yellow-500 text-white font-semibold shadow-md hover:opacity-90 transition">
+          <button
+            id="btnLoginGoogle"
+            type="button"
+            class="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-gradient-to-r from-red-500 to-yellow-500 text-white font-semibold shadow-md hover:opacity-90 transition"
+          >
             <i class="fa-brands fa-google text-lg"></i>
             Entrar com Google
           </button>
@@ -191,11 +270,13 @@
     </div>
 
     <!-- Botão de tema -->
-    <button id="btn-tema" class="fixed top-6 right-4 p-2 rounded-full shadow bg-white dark:bg-gray-800 text-gray-800 dark:text-white transition-colors">
+    <button
+      id="btn-tema"
+      class="fixed top-6 right-4 p-2 rounded-full shadow bg-white dark:bg-gray-800 text-gray-800 dark:text-white transition-colors"
+    >
       <i data-lucide="moon" id="icone-tema"></i>
     </button>
 
-  <script type="module" src="./assets/js/main.js"></script>
-
+    <script type="module" src="./assets/js/main.js"></script>
   </body>
 </html>
