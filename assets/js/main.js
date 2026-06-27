@@ -1,3 +1,4 @@
+import { LoginSocial } from './login.js';
 import { ListaDeProdutos } from './listaProdutos.js';
 import { UI } from './ui.js';
 import { Sugestoes } from './sugestoes.js';
@@ -72,6 +73,8 @@ const produtosPrincipais = [
 
 window.addEventListener('DOMContentLoaded', () => {
   lucide.createIcons();
+
+  new LoginSocial();
 
   const lista = new ListaDeProdutos();
   const ui = new UI(lista);

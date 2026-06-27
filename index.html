@@ -1,85 +1,211 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" class="transition-colors duration-300">
   <head>
     <meta charset="UTF-8" />
-    <title>Calculadora de Compras</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="assets/icon/favicon.ico" type="image/x-icon">
-    <link rel="manifest" href="manifest.json">
-    <script src="https://cdn.tailwindcss.com"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Calculadora de Compras | Controle seus gastos no mercado</title>
+    <link rel="icon" href="assets/icon/favicon.ico" type="image/x-icon" />
+    <link rel="manifest" href="manifest.json" />
+    <link rel="stylesheet" href="assets/css/style.css" />
     <script src="https://unpkg.com/lucide@latest"></script>
-    <script src="assets/js/script.js"></script>
   </head>
- <body class="bg-gray-50 min-h-screen flex flex-col items-center py-10 px-4 text-gray-800 pb-32">
 
-  <h1 class="text-3xl font-bold mb-8 text-center text-gray-800 flex items-center justify-center gap-2">
-  <i data-lucide="shopping-cart" class="w-8 h-8 text-green-600"></i>
-    Calculadora de Compras
-  </h1>
-
-  <!-- Formulário -->
-  <div class="w-full max-w-md bg-white rounded-2xl shadow p-6 space-y-5">
-    <div class="relative w-full max-w-md">
-      <label for="nome-produto" class="block text-sm font-medium mb-1">Nome do Produto</label>
-      <input type="text" id="nome-produto" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-green-500 focus:border-green-500 px-4 py-2" placeholder="Ex: Maçã" oninput="filtrarProdutos()"/>
-      <!-- Lista de sugestões -->
-      <ul id="sugestoes" class="absolute w-full bg-white border border-gray-300 rounded-md mt-1 max-h-40 overflow-y-auto hidden">
-        <!-- As sugestões serão inseridas aqui dinamicamente -->
-      </ul>
-    </div>
-    <div>
-      <label for="valor-produto" class="block text-sm font-medium mb-1">Valor (R$)</label>
-      <input type="text" id="valor-produto" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-green-500 focus:border-green-500 px-4 py-2" placeholder="Ex: 2.50" />
-    </div>
-    <button onclick="adicionarProduto()" class="w-full bg-green-600 hover:bg-green-700 transition-all text-white font-semibold py-3 rounded-lg flex items-center justify-center gap-2">
-      <i data-lucide="plus-circle" class="w-5 h-5"></i>
-      Adicionar Produto
-    </button>
-  </div>
-
-  <!-- Lista de Produtos -->
-  <div class="mt-10 w-full max-w-2xl">
-    <h2 class="text-2xl font-semibold mb-4">Produtos Adicionados</h2>
-    <ul id="produtos-list" class="space-y-4"></ul>
-  </div>
-
-  <!-- Painel fixo inferior -->
-  <div class="fixed bottom-0 left-0 w-full bg-white border-t shadow-md z-50">
-    <div class="max-w-4xl mx-auto px-4 py-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+  <body class="bg-gray-50 text-gray-800 dark:bg-gray-900 dark:text-gray-100 min-h-screen">
+    <!-- Header -->
+    <header
+      class="max-w-6xl mx-auto px-4 sm:px-6 py-6 sm:py-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4"
+    >
       <div class="flex items-center gap-3">
-        <i data-lucide="package" class="w-6 h-6 text-blue-600"></i>
-        <div>
-          <p class="text-sm text-gray-500" hidden>Quantidade de Itens</p>
-          <p id="contagem-itens" class="text-lg font-bold text-blue-600">0 item(s)</p>
-        </div>
+        <span
+          class="inline-flex items-center justify-center w-10 h-10 sm:w-11 sm:h-11 rounded-2xl bg-green-600 text-white shadow-md"
+        >
+          <i data-lucide="shopping-cart" class="w-5 h-5 sm:w-6 sm:h-6"></i>
+        </span>
+        <h1 class="text-lg sm:text-xl font-bold leading-none">Calculadora de Compras</h1>
       </div>
-      <div class="flex items-center gap-3">
-        <i data-lucide="dollar-sign" class="w-6 h-6 text-green-600"></i>
-        <div>
-          <p class="text-sm text-gray-500" hidden>Valor Total</p>
-          <p id="total" class="text-lg font-bold text-green-600">R$ 0,00</p>
-        </div>
+
+      <!-- Ações -->
+       <div class="flex items-center gap-3">
+        <button id="installBtnLanding" class="inline-flex items-center gap-2 bg-blue-600 hover:opacity-90 text-white font-semibold px-5 py-2.5 rounded-xl transition-all shadow-sm">
+          <i data-lucide="download" class="w-4 h-4"></i>
+          Instalar
+        </button>
+        <button id="openCalculatorBtn" type="button" class="inline-flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white font-semibold px-5 py-2.5 rounded-xl transition-all shadow-sm">
+          <i data-lucide="arrow-right" class="w-4 h-4"></i>
+          Abrir Calculadora
+        </button>
       </div>
-    </div>
-  </div>
+    </header>
 
-    <!-- Toast Container -->
-    <div id="toast-container" class="fixed top-4 right-4 space-y-3 z-50 max-w-sm w-full"></div>
+    <!-- Conteúdo -->
+    <main class="max-w-6xl mx-auto px-4 sm:px-6 pb-16 space-y-12 sm:space-y-16">
+      <!-- Hero -->
+      <section
+        class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-3xl p-6 sm:p-8 md:p-12 shadow-sm"
+      >
+        <div class="grid md:grid-cols-2 gap-8 md:gap-10 items-center">
+          <div class="space-y-5">
+            <span
+              class="inline-flex items-center gap-2 text-sm font-semibold text-green-700 dark:text-green-500 bg-green-100 dark:bg-green-900/30 px-3 py-1 rounded-full"
+            >
+              <i data-lucide="sparkles" class="w-4 h-4"></i>
+              Simples, rápida e feita para o dia a dia
+            </span>
 
-    <script>
-      if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('./service-worker.js')
-          .then(() => console.log('Service Worker registrado!'))
-          .catch(err => console.error('Erro ao registrar Service Worker:', err));
-      }
-    </script>
+            <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold leading-tight">
+              Tenha controle do carrinho antes de chegar no caixa.
+            </h2>
 
-    <button id="installBtn"
-            class="fixed bottom-2 left-1/2 transform -translate-x-1/2 bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-lg shadow-lg transition duration-300 z-50"
-            style="display: none;">
-    Instalar App
+            <p class="text-gray-600 dark:text-gray-300 text-base sm:text-lg">
+              A Calculadora de Compras ajuda você a registrar produtos e acompanhar o total em tempo real, evitando
+              surpresas no mercado.
+            </p>
+
+            <div class="flex flex-col sm:flex-row flex-wrap gap-3">
+              <a
+                href="app.html"
+                class="w-full sm:w-auto text-center bg-green-600 hover:bg-green-700 text-white font-semibold px-6 py-3 rounded-xl transition-all"
+              >
+                Começar agora
+              </a>
+
+              <a
+                href="#roadmap"
+                class="w-full sm:w-auto text-center border border-gray-300 dark:border-gray-600 hover:border-green-600 font-semibold px-6 py-3 rounded-xl transition-all"
+              >
+                Ver roadmap
+              </a>
+            </div>
+          </div>
+
+          <div class="bg-gradient-to-br from-green-600 to-blue-600 rounded-3xl p-6 sm:p-8 text-white shadow-xl">
+            <h3 class="text-lg sm:text-xl font-bold mb-5">O que você consegue fazer</h3>
+            <ul class="space-y-4 text-white/95">
+              <li class="flex items-start gap-3">
+                <i data-lucide="check-circle-2" class="w-5 h-5 mt-0.5"></i>
+                <span>Adicionar itens rapidamente durante as compras.</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <i data-lucide="check-circle-2" class="w-5 h-5 mt-0.5"></i>
+                <span>Visualizar quantidade e valor total instantaneamente.</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <i data-lucide="check-circle-2" class="w-5 h-5 mt-0.5"></i>
+                <span>Usar no celular como app instalado com suporte PWA.</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- Features -->
+      <section>
+        <div class="mb-6">
+          <h2 class="text-xl sm:text-2xl md:text-3xl font-bold">Funções da calculadora</h2>
+          <p class="text-gray-600 dark:text-gray-300 mt-2">
+            Tudo foi pensado para ser direto e eficiente enquanto você compra.
+          </p>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-4">
+          <article
+            class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl p-6 space-y-3"
+          >
+            <i data-lucide="plus-circle" class="w-8 h-8 text-green-600"></i>
+            <h3 class="font-semibold text-lg">Cadastro rápido de produtos</h3>
+            <p class="text-gray-600 dark:text-gray-300">Adicione nome e valor de cada item em poucos toques.</p>
+          </article>
+
+          <article
+            class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl p-6 space-y-3"
+          >
+            <i data-lucide="calculator" class="w-8 h-8 text-blue-600"></i>
+            <h3 class="font-semibold text-lg">Total em tempo real</h3>
+            <p class="text-gray-600 dark:text-gray-300">Acompanhe automaticamente quanto já foi gasto no carrinho.</p>
+          </article>
+
+          <article
+            class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl p-6 space-y-3"
+          >
+            <i data-lucide="sun-moon" class="w-8 h-8 text-gray-600"></i>
+            <h3 class="font-semibold text-lg">Tema claro e escuro</h3>
+            <p class="text-gray-600 dark:text-gray-300">
+              Use do jeito que preferir, com visual limpo em qualquer ambiente.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <!-- Roadmap -->
+      <section
+        id="roadmap"
+        class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-3xl p-6 sm:p-8 md:p-10"
+      >
+        <h2 class="text-xl sm:text-2xl md:text-3xl font-bold mb-2">Roadmap de evolução</h2>
+        <p class="text-gray-600 dark:text-gray-300 mb-8">
+          Próximos passos planejados para deixar a calculadora ainda mais completa.
+        </p>
+
+        <div class="space-y-4">
+          <div
+            class="flex items-start gap-4 p-4 rounded-xl bg-gray-50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700"
+          >
+            <span class="w-8 h-8 rounded-full bg-green-600 text-white text-sm font-bold flex items-center justify-center"
+              >1</span
+            >
+            <div>
+              <h3 class="font-semibold">Edição de produtos já adicionados</h3>
+              <p class="text-gray-600 dark:text-gray-300">
+                Ajustar valores e nomes sem precisar remover e cadastrar novamente.
+              </p>
+            </div>
+          </div>
+
+          <div
+            class="flex items-start gap-4 p-4 rounded-xl bg-gray-50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700"
+          >
+            <span class="w-8 h-8 rounded-full bg-blue-600 text-white text-sm font-bold flex items-center justify-center"
+              >2</span
+            >
+            <div>
+              <h3 class="font-semibold">Listas salvas por mercado ou ocasião</h3>
+              <p class="text-gray-600 dark:text-gray-300">
+                Criar listas reutilizáveis para compras semanais, mensais ou especiais.
+              </p>
+            </div>
+          </div>
+
+          <div
+            class="flex items-start gap-4 p-4 rounded-xl bg-gray-50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700"
+          >
+            <span
+              class="w-8 h-8 rounded-full bg-gray-700 text-white text-sm font-bold flex items-center justify-center"
+              >3</span
+            >
+            <div>
+              <h3 class="font-semibold">Relatórios simples de gastos</h3>
+              <p class="text-gray-600 dark:text-gray-300">
+                Visualizar histórico e médias para melhorar o planejamento do orçamento.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="py-6 px-6 text-center text-sm text-gray-500 dark:text-gray-400">
+      2026 Calculadora Preço
+    </footer>
+
+    <!-- Botão tema (no mobile fica embaixo, no desktop no topo) -->
+    <button
+      id="btn-tema"
+      class="fixed bottom-6 right-4 sm:top-6 sm:bottom-auto p-2 rounded-full shadow bg-white dark:bg-gray-800 text-gray-800 dark:text-white transition-colors z-50"
+    >
+      <i data-lucide="moon" id="icone-tema"></i>
     </button>
 
-    
+    <script type="module" src="./assets/js/landing.js"></script>
   </body>
 </html>
