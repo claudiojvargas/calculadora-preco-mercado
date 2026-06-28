@@ -5,8 +5,11 @@
   "main": "service-worker.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "npx tailwindcss/cli build -i ./assets/css/style-input.css -o ./assets/css/style.css --watch",
-    "start-build": "npx @tailwindcss/cli -i ./assets/css/style-input.css -o ./assets/css/style.css --watch"
+    "build": "npm run build:ts && npm run build:css",
+    "start-build": "npx @tailwindcss/cli -i ./assets/css/style-input.css -o ./assets/css/style.css --watch",
+    "typecheck": "npx tsc --noEmit",
+    "build:ts": "npx tsc",
+    "build:css": "node node_modules/@tailwindcss/cli/dist/index.mjs -i ./assets/css/style-input.css -o ./assets/css/style.css"
   },
   "repository": {
     "type": "git",

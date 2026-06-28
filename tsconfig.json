@@ -1,0 +1,27 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ES2022",
+    "moduleResolution": "Bundler",
+    "outDir": "assets/js",
+    "rootDir": "assets/ts",
+    "strict": false,
+    "noEmitOnError": false,
+    "skipLibCheck": true,
+    "lib": [
+      "ES2022",
+      "DOM",
+      "WebWorker"
+    ],
+    "types": [],
+    "allowJs": false
+  },
+  "include": [
+    "assets/ts/**/*.ts",
+    "globals.d.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "assets/js"
+  ]
+}
