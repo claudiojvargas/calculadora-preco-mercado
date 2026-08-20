@@ -174,24 +174,6 @@ Este produto utiliza diversos conceitos comuns no desenvolvimento de aplicaçõe
 
 ---
 
-# 📸 Capturas de Tela
-
-*As imagens serão adicionadas nas próximas versões do README.*
-
-Sugestão de organização:
-
-```
-docs/
-    home.png
-    lista.png
-    login.png
-    mobile.png
-```
-
-Depois poderão ser exibidas diretamente nesta seção para facilitar a visualização do produto.
-
----
-
 # 🚧 Roadmap
 
 ## Próxima versão
